@@ -58,3 +58,8 @@ push_binary:
 	git checkout master
 
 pull_binary:
+	git fetch git@github.com:cayek/TESS3ArticleBinary.git master --depth=1
+	git merge FETCH_HEAD -m "binary"
+	git reset --soft HEAD~
+	git reset
+
