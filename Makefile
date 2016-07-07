@@ -46,7 +46,7 @@ pull:
 ################################################################################
 # binary
 
-BINARY_FILE = Figure5/Experiments/Results/TAIR9/tess3K6.sigmaHeat1.5.RData Figure5/Experiments/Results/TAIR9/variogram.RData
+BINARY_FILE = Figure5/Experiments/Results/TAIR9/tess3K6.sigmaHeat1.5.RData Figure5/Experiments/Results/TAIR9/variogram.RData Data/AthalianaGegMapLines/call_method_75/call_method_75_TAIR9.RData
 
 push_binary: 
 	git checkout binary
