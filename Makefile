@@ -1,11 +1,11 @@
+.PHONY : all run shell start stop rm build force_rm push rm_image pull rstudio-server
+
+all:
+
 ################################################################################
 # docker
 IMAGE_NAME = cayek/tess3_article:latest
 CONTAINER_NAME = tess3_article
-
-.PHONY : all run shell start stop rm build force_rm push rm_image pull rstudio-server
-
-all:
 
 run:
 	docker run -it --name $(CONTAINER_NAME) -w /data -v $(shell pwd):/data -d -P $(IMAGE_NAME)
@@ -42,3 +42,13 @@ rm_image:
 
 pull:
 	docker pull $(IMAGE_NAME)
+
+################################################################################
+# binary
+
+BINARY_FILE = 
+
+push_binary: 
+
+
+pull_binary:
