@@ -46,7 +46,7 @@ pull:
 ################################################################################
 # binary
 
-BINARY_FILE = $(wildcard Figure5/Experiments/Results/TAIR9/*.RData Data/AthalianaGegMapLines/call_method_75/*.RData)
+BINARY_FILE = $(wildcard Figure5/Experiments/Results/TAIR9/*.RData Figure5/Experiments/Results/TAIR8/*.RData Data/AthalianaGegMapLines/call_method_75/*.RData)
 
 push_binary: 
 	git checkout binary
