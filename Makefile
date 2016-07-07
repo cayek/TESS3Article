@@ -46,9 +46,15 @@ pull:
 ################################################################################
 # binary
 
-BINARY_FILE = 
+BINARY_FILE = Figure5/Experiments/Results/TAIR9/tess3K6.sigmaHeat1.5.RData Figure5/Experiments/Results/TAIR9/variogram.RData
 
 push_binary: 
-
+	git checkout binary
+	git add $(BINARY_FILE)
+	git commit -m "binary" 
+	git push -f binary_remote binary:master
+	git reset --soft HEAD~
+	git reset
+	git checkout master
 
 pull_binary:
