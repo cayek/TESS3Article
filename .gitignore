@@ -1,0 +1,19 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.RData
+*.res
+
+# emacs 
+*~
+
+# At
+Data/AthalianaGegMapLines/call_method_75/*
+Data/AthalianaGegMapLines/ancestral_alleles.txt
+
+# vep file
+*.fas
+*.fas.index
+*.gff
+Data/vep/arabidopsis_thaliana/
