@@ -32,5 +32,20 @@ tess3.obj <- tess3(X = NULL,
                          copy = FALSE,
                          algo.copy = TRUE)
 
+
 cat(green(paste("== Save result\n")))
 save(tess3.obj, file = paste0(res.dir,"tess3.K110.rep5.RData"))
+
+# keep only rmse
+err.df <- data.frame()
+for (t in tess3.obj) {
+  err.df <- rbind(err.df,
+    data.frame(rmse = t$rmse,
+                crossvalid.rmse = t$crossvalid.rmse,
+                crossentropy = t$crossentropy,
+                crossvalid.crossentropy = t$crossvalid.crossentropy,
+                K = t$K,
+                rep = seq_along(t$rmse)))
+
+}
+save(err.df, file = paste0(res.dir,"err.K110.rep5.RData"))

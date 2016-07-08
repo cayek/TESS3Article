@@ -35,3 +35,7 @@ require("tess3r")
 res.dir <- "./Experiments/Results/TAIR9/"
 fig.dir <- "./Figures/"
 data.dir <- "../Data/"
+
+################################################################################
+# page size
+page <- list(width = 8.3, heigth = 11.7)

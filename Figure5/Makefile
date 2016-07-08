@@ -1,15 +1,18 @@
 RSCRIPT = Rscript
-TEX = pdflatex
 PRINT = @echo -e "\e[1;34mBuilding $@\e[0m"
+FIGURES = $(wildcard Figures/*.R)
+EXPERIMENTS = $(wildcard Experiments/*.R)
 
 .PHONY: all
 
-all:
+all: $(FIGURES) $(EXPERIMENTS)
 
 ################################################################################
 # Figures
 
-
+Figures/%.pdf: Figures/%.R setup.R
+	$(PRINT)
+	$(RSCRIPT) $<
 
 ################################################################################
 # Experiements
