@@ -14,7 +14,7 @@ shell:
 	docker exec -it $(CONTAINER_NAME) bash
 
 rstudio-server:
-	$(INTERNET_BROWSER) $(shell docker port labnotebook 8787) &
+	$(INTERNET_BROWSER) $(shell docker port $(CONTAINER_NAME) 8787) &
 
 start:
 	docker start $(CONTAINER_NAME)
@@ -46,12 +46,14 @@ pull:
 ################################################################################
 # binary
 
-BINARY_FILE = $(wildcard Figure5/Experiments/Results/TAIR9/*.RData Figure5/Experiments/Results/TAIR8/*.RData Data/AthalianaGegMapLines/call_method_75/*.RData)
+BINARY_FILE_ALL = $(wildcard Figure5/Experiments/Results/TAIR9/*.RData Figure5/Experiments/Results/TAIR8/*.RData Data/AthalianaGegMapLines/call_method_75/*.RData)
+# filter too big file
+BINARY_FILE = $(filter-out Figure5/Experiments/Results/TAIR9/tess3.K110.rep5.RData, $(BINARY_FILE_ALL))
 
-push_binary: 
+push_binary:
 	git checkout binary
 	git add $(BINARY_FILE)
-	git commit -m "binary" 
+	git commit -m "binary"
 	git push -f binary_remote binary:master
 	git reset --soft HEAD~
 	git reset
@@ -62,4 +64,3 @@ pull_binary:
 	git merge FETCH_HEAD -m "binary"
 	git reset --soft HEAD~
 	git reset
-
