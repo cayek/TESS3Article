@@ -1,4 +1,4 @@
-.PHONY : all run shell start stop rm build force_rm push rm_image pull rstudio-server
+.PHONY : all run shell start stop rm build force_rm push rm_image pull rstudio-server push_binary pull_binary rm_binary
 
 all:
 
@@ -64,3 +64,6 @@ pull_binary:
 	git merge FETCH_HEAD -m "binary"
 	git reset --soft HEAD~
 	git reset
+
+rm_binary:
+	rm -i $(BINARY_FILE)

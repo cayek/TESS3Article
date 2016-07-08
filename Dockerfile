@@ -1,10 +1,10 @@
 FROM rocker/hadleyverse
 
 ################################################################################
-# ensempl api 
+# ensempl api
 
 ## change working directory
-WORKDIR $HOME
+# WORKDIR $HOME
 
 ## install ensembl dependencies
 RUN apt-get update && \
@@ -59,7 +59,20 @@ RUN apt-get update && \
     unzip 84.zip && \
     rm 84.zip
 
-RUN cpan Archive::Extract DBI CGI Archive::Zip File::Copy::Recursive   # JSON Sereal -- these 2 additional perl modules are used by VEP tests. Leaving them out for now until they're needed
+RUN cpan Archive::Extract DBI CGI Archive::Zip File::Copy::Recursive   # JSON Sereal -- these 2 additional perl modules are used by VEP tests. Leaving them out for now until they re needed
 
 RUN cd /root/ensembl-tools-release-84/scripts/variant_effect_predictor && \
     perl INSTALL.pl --AUTO ap --PLUGINS all --NO_HTSLIB
+
+################################################################################
+# R package
+
+RUN R -e 'install.packages(c("data.table", "maps", "ggplot2","reshape2","dplyr","gridExtra","cowplot","ggmap","xtable","devtools"))'
+RUN R -e 'install.packages(c("tikzDevice"))'
+RUN R -e 'install.packages(c("raster"))'
+RUN R -e 'devtools::install_github("BioShock38/TESS3_encho_sen@experiment")'
+RUN R -e 'devtools::install_github("cayek/TESS3/tess3r@experiment")'
+RUN R -e 'devtools::install_github("BioShock38/TESS3_encho_sen")'
+RUN R -e 'source("https://bioconductor.org/biocLite.R");biocLite("qvalue");biocLite("LEA")'
+RUN R -e 'install.packages(c("sp", "rgeos", "rgdal", "cartography", "leaflet"))'
+RUN R -e 'install.packages(c("foreach", "doParallel", "DescTools"))'

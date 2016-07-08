@@ -5,8 +5,11 @@
 *.RData
 *.res
 
+.DS_Store
+
 # emacs 
 *~
+\#*\#
 
 # At
 Data/AthalianaGegMapLines/call_method_75/*
@@ -17,3 +20,9 @@ Data/AthalianaGegMapLines/ancestral_alleles.txt
 *.fas.index
 *.gff
 Data/vep/arabidopsis_thaliana/
+
+# latex
+*.pdf
+*.aux
+*.log
+*.tex
