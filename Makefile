@@ -46,7 +46,7 @@ pull:
 ################################################################################
 # binary
 
-BINARY_FILE_ALL = $(wildcard Figure5/Experiments/Results/TAIR9/*.RData Figure5/Experiments/Results/TAIR8/*.RData Data/AthalianaGegMapLines/call_method_75/*.RData)
+BINARY_FILE_ALL = $(wildcard Figure4/Experiments/Results/*.RData Figure3/Experiments/Results/*.RData Figure2/Experiments/Results/*.RData Figure1/Experiments/Results/*.RData Figure5/Experiments/Results/TAIR9/*.RData Figure5/Experiments/Results/TAIR8/*.RData Data/AthalianaGegMapLines/call_method_75/*.RData)
 # filter too big file
 BINARY_FILE = $(filter-out Figure5/Experiments/Results/TAIR9/tess3.K110.rep5.RData, $(BINARY_FILE_ALL))
 
