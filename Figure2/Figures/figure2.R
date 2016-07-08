@@ -21,7 +21,8 @@ pl <- ggplot(toplot ,aes(x = Fst.theorical, y = rmse.mean, col = method)) +
   ylab("$RMSE$")
 pl
 
-tikzDevice::tikz(paste0(fig.dir,"figure2.tex"), width = 7,height = 7,standAlone = TRUE)
+tikzDevice::tikz(paste0(fig.dir,"figure2.tex"), width = 0.7 * page$width,
+                 height = 0.7 * page$width, standAlone = TRUE)
 pl
 dev.off()
 bup <- getwd()
