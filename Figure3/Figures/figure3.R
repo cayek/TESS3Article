@@ -21,7 +21,7 @@ pl
 
 
 tikzDevice::tikz(paste0(fig.dir,"figure3.tex"), width = 0.7 * page$width,
-                 height = 0.7 * page$width, standAlone = TRUE)
+                 height = 0.7 * page$heigth, standAlone = TRUE)
 pl
 dev.off()
 bup <- getwd()

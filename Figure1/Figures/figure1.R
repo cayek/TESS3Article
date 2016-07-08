@@ -26,7 +26,7 @@ pl.L <- ggplot(toplot ,aes(x = L, y = rmse.mean, col = method)) +
   ylab("$RMSE$")
 
 tikzDevice::tikz(paste0(fig.dir,"figure1.tex"), width = 0.7 * page$width,
-  height = 0.7 * page$width, standAlone = TRUE)
+  height = 0.7 * page$heigth, standAlone = TRUE)
 plot_grid(pl.n,pl.L, ncol = 1, labels = c("A", "B"))
 dev.off()
 bup <- getwd()
