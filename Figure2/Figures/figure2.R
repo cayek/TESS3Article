@@ -1,0 +1,30 @@
+source("setup.R")
+library(tikzDevice)
+library(gridExtra)
+library(cowplot)
+library(dplyr)
+
+load(paste0(res.dir,"rmse.fst.RData"))
+toplot <- df %>%
+  mutate(n = paste0("n = ",n)) %>%
+  group_by(nsites.neutral) %>% 
+  mutate(L = round(mean(L)), L = paste0("L = ",L)) %>%
+  group_by(method, m.neutral, n, L) %>% 
+  mutate(Fst = mean(Fst), rmse.mean = mean(rmseQ), N = length(rmseQ), sd = sd(rmseQ), se = sd / sqrt(N)) 
+pl <- ggplot(toplot ,aes(x = Fst.theorical, y = rmse.mean, col = method)) + 
+  geom_errorbar(aes(ymin = rmse.mean - se, ymax = rmse.mean + se), width = .1) +
+  geom_line() +
+  geom_point() + 
+  facet_grid(L ~ n) + 
+  theme_bw() + 
+  xlab("$Fst = 1 / (1 + 4 N_0 m)$") + 
+  ylab("$RMSE$")
+pl
+
+tikzDevice::tikz(paste0(fig.dir,"figure2.tex"), width = 7,height = 7,standAlone = TRUE)
+pl
+dev.off()
+bup <- getwd()
+setwd(fig.dir)
+tools::texi2dvi("figure2.tex",pdf = TRUE)
+setwd(bup)
