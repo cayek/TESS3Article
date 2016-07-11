@@ -12,7 +12,7 @@ write.geno(R = call_method_75_TAIR9.europe$X, output.file = file.geno)
 # Run sNMF
 cat(green(paste("== Runing sNMF \n")))
 snmf.proj <- snmf(file.geno, K=6, entropy = FALSE, repetitions = 1,
-         project = "new")
+         project = "new", ploidy = 1)
 
 snmf.obj <- list()
 snmf.obj$Q <- Q(snmf.proj, K = 6, run = 1)
