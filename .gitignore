@@ -26,3 +26,9 @@ Data/vep/arabidopsis_thaliana/
 *.aux
 *.log
 *.tex
+
+# Rmd
+*.html
+
+# fig
+*.png

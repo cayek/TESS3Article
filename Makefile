@@ -1,4 +1,4 @@
-.PHONY : all run shell start stop rm build force_rm push rm_image pull rstudio-server push_binary pull_binary rm_binary
+.PHONY : all run shell start stop rm build push rm_image pull rstudio-server push_binary pull_binary rm_binary
 
 all:
 
@@ -11,7 +11,7 @@ run:
 	docker run -it --name $(CONTAINER_NAME) -w /data -v $(shell pwd):/data -d -P $(IMAGE_NAME)
 
 shell:
-	docker exec -it $(CONTAINER_NAME) bash
+	docker exec -it $(CONTAINER_NAME) zsh
 
 rstudio-server:
 	$(INTERNET_BROWSER) $(shell docker port $(CONTAINER_NAME) 8787) &
@@ -22,11 +22,8 @@ start:
 stop:
 	docker stop $(CONTAINER_NAME)
 
-rm:
+rm_container:
 	docker rm $(CONTAINER_NAME)
-
-force_rm:
-	docker rm -f $(CONTAINER_NAME)
 
 build: Dockerfile
 	docker build -t $(IMAGE_NAME) .
