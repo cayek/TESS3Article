@@ -17,50 +17,49 @@ data.file <-
 load(data.file)
 
 ################################################################################
+# flowering genes
+# search on http://plants.ensembl.org/
+# SHORT VEGETATIVE PHASE (SVP), a MADS box gene that negatively regulates the transition to flowering (Differentiating Fennoscandia and Eastern Europe/Russia)
+flowering.gene <- vep.res %>% filter(Gene == "AT2G22540") %>% mutate(label = "SVP")
+# COP1-interacting protein 4.1 (CIP4.1)
+flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT4G00930") %>% mutate(label = "CIP4.1"))
+# FRIGIDA (FRI)
+flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT4G00650") %>% mutate(label = "FRI"))
+# FLOWERING LOCUS C (FLC),
+flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT5G10140") %>% mutate(label = "FLC"))
+# DELAY OF GERMINATION 1 (DOG1)
+flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT5G45830")%>% mutate(label = "DOG1"))
+
+
+################################################################################
 # Plot TESS3 manhattanplot
-toplot <- data.frame(fst = tess3Main.obj$Fst, 
+toplot <- data.frame(fst = tess3Main.obj$Fst,
                      pvalue = tess3Main.obj$pvalue,
-                     call_method_75_TAIR9.europe$locus.coord, 
-                     index = seq_along(tess3Main.obj$Fst))
+                     call_method_75_TAIR9.europe$locus.coord,
+                     index = seq_along(tess3Main.obj$Fst)) %>%
+  mutate(Location = paste0(Chromosome,":",Positions))
 
-## control fdr
-
-
+alert <- merge(toplot, flowering.gene, by = c("Location"))
+label <- alert %>% group_by(Gene) %>% filter(row_number(index)==1)
+label$index[2] = label$index[2] + 8000
+label$index[3] = label$index[3] - 8000
 ## plot
-pl <- ggplot(toplot, aes(x = index, y = -log(pvalue), 
-                         color = as.factor(Chromosome), fill = Chromosome)) + 
-  geom_point() + 
+pl <- ggplot(toplot, aes(x = index, y = -log(pvalue),
+                         color = as.factor(Chromosome), fill = Chromosome)) +
+  geom_point() +
   labs(y = "-log(pvalue)", x = "locus index") +
-  theme_gray() + 
-  theme(legend.position = "none")
+  theme_gray() +
+  theme(legend.position = "none") +
+  geom_point(data=alert, colour = "red") +
+  geom_text(data=label, aes(x = index, y = 0, label=label), vjust = 1.8, check_overlap = FALSE) 
 
 
-# png(paste0(fig.dir,"G_K6_sigma1_5.png"), width = slide$width * 0.9,
-#     height = slide$heigth * 0.8,res = 600, units = "in")
-# pl 
-# dev.off()
+pdf(paste0(fig.dir,"manhattanplot.pdf"), width = page$width * 0.8,
+    height = page$heigth * 0.8)
+pl
+dev.off()
 
-################################################################################
-# Plot snmf
-fst <- ComputeFst(snmf.obj$Q, snmf.obj$G, 1)
-pvalue <- 
-toplot <- data.frame(fst = fst, 
-                     pvalue = pvalue,
-                     call_method_75_TAIR9.europe$locus.coord, 
-                     index = seq_along(fst))
-
-## controle fdr
-
-
-## plot
-pl <- ggplot(toplot, aes(x = index, y = -log(pvalue), 
-                         color = as.factor(Chromosome), fill = Chromosome)) + 
-  geom_point() + 
-  labs(y = "-log(pvalue)", x = "locus index") +
-  theme_gray() + 
-  theme(legend.position = "none")
-
-################################################################################
-# Comparison snmf tess3
-todo
-
+png(paste0(fig.dir,"manhattanplot.png"), width = page$width * 0.8,
+    height = page$heigth * 0.8,res = 600, units = "in")
+pl
+dev.off()

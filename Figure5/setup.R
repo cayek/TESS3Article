@@ -26,7 +26,7 @@ pkgTest("permute")
 pkgTest("crayon")
 
 # personal packages
-#devtools::install_github("cayek/TESS3_encho_sen@master")
+#devtools::install_github("BioShock38/TESS3_encho_sen@master")
 require("tess3r")
 
 ################################################################################

@@ -24,4 +24,3 @@ tikzDevice::tikz(paste0(fig.dir,"variogram.tex"), width = page$width * 0.7,
                  height = page$heigth * 0.7,standAlone = TRUE)
 pl
 dev.off()
-texi2dvi(paste0(fig.dir,"variogram.tex"),pdf = TRUE)
