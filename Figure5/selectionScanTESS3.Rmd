@@ -1,0 +1,119 @@
+---
+title: "Selection Scan and Overepresentation Test with TESS3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("setup.R")
+library(dplyr)
+library(ggplot2)
+library(qvalue)
+library(tess3r)
+data.file <-
+  paste0(data.dir, "AthalianaGegMapLines/call_method_75/call_method_75_TAIR9.RData")
+load(data.file)
+K <- 6
+n <- nrow(call_method_75_TAIR9.europe$X)
+fdr.level <- 1e-10
+```
+
+## TESS3 with $K = 6$ and $\sigma = 1.5$
+
+```{r tess3.res}
+res.file <- paste0(res.dir, "tess3K6.sigmaHeat1.5.RData")
+load(res.file)
+```
+
+```{r tess3.pvalue, dependson=c("tess3.res")}
+tess3.scan <- data.frame(fst = tess3Main.obj$Fst)
+
+# compute score
+tess3.scan <- tess3.scan %>% mutate(z.score = sqrt(fst*(n-K)/(1-fst)))
+
+# compute gif
+lambda <- median(tess3.scan$z.score^2)/qchisq(1/2, df = K-1)
+print(paste0("gif = ", lambda))
+
+# compute pvalue
+tess3.scan <- tess3.scan %>% mutate(p.value = pchisq(z.score ^ 2 / lambda, 
+                                                     df = K-1, 
+                                                     lower = FALSE),
+                                    log.p.value = pchisq(z.score ^ 2 / lambda, 
+                                                     df = K-1, 
+                                                     lower = FALSE, 
+                                                     log.p = TRUE))
+hist(tess3.scan$p.value)
+```
+
+### Manhattanplot 
+
+```{r tess3.man, dependson = c("tess3.pvalue")}
+ggplot(tess3.scan, aes(x = seq_along(fst), y = - log.p.value)) + 
+  geom_point() + 
+  scale_y_continuous(limits = c(0,600))
+```
+
+### FDR control with qvalue
+
+```{r tess3.fdr, dependson=c("tess3.pvalue")}
+qvals <- qvalue(tess3.scan$p.value, fdr.level = fdr.level)
+plot(qvals)
+cat("proportion of significant SNPs = ",sum(qvals$significant) / length(tess3.scan$p.value),"\n")
+cat("number of significant SNPs = ",sum(qvals$significant) ,"\n")
+tess3.scan <- tess3.scan %>% mutate(q.value = qvals$qvalues)
+```
+
+### Gene annotation
+
+```{r }
+res.file <- paste0(res.dir, "snpsTAIR9vepTAIR10.RData")
+load(res.file)
+
+# tess3
+tess3.scan.annotation <- cbind(tess3.scan, call_method_75_TAIR9.europe$locus.coord)
+tess3.scan.annotation <- tess3.scan.annotation %>% mutate(Location = paste0(Chromosome,":",Positions),
+                                  index = seq_along(fst)) 
+tess3.scan.annotation <- merge(tess3.scan.annotation, vep.res, by = c("Location")) %>%
+  arrange(q.value)
+
+```
+
+## Flowering gene
+
+```{r}
+# flowering genes
+# search on http://plants.ensembl.org/
+# SHORT VEGETATIVE PHASE (SVP), a MADS box gene that negatively regulates the transition to flowering (Differentiating Fennoscandia and Eastern Europe/Russia)
+flowering.gene <- vep.res %>% filter(Gene == "AT2G22540") %>% mutate(label = "SVP")
+# COP1-interacting protein 4.1 (CIP4.1)
+flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT4G00930") %>% mutate(label = "CIP4.1"))
+# FRIGIDA (FRI)
+flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT4G00650") %>% mutate(label = "FRI"))
+# FLOWERING LOCUS C (FLC),
+flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT5G10140") %>% mutate(label = "FLC"))
+# DELAY OF GERMINATION 1 (DOG1)
+flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT5G45830")%>% mutate(label = "DOG1"))
+
+toplot <- merge(flowering.gene, tess3.scan.annotation) %>%
+  select(Chromosome, Positions, Gene, fst, p.value, label) %>%
+  arrange(p.value) 
+knitr::kable(toplot)
+```
+
+## Overepresentation test with panther
+
+### list generated with the fdr controled
+
+```{r}
+fdr.level <- 1e-5
+genes <- tess3.scan.annotation %>%
+  filter(q.value <= fdr.level) %>% 
+  group_by(Gene) %>% filter(row_number(index) == 1) %>% dplyr::select(Gene)
+
+cat("number of significant gene = ",nrow(genes) ,"\n")
+write.table(genes, file = "panther.txt", quote = FALSE, row.names = FALSE, col.names = FALSE)
+```
+
+Now yan can feed http://www.pantherdb.org/ with `panther.txt`
+

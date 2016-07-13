@@ -177,8 +177,8 @@ print(paste0("prop of snmf cand in tess3 cand = ",prop))
 #### Top
 
 ```{r}
-# top 500
-id.max <- 500
+# top 1000
+id.max <- 1000
 snmf.cand <- unique(snmf.scan.annotation$Gene)[1:id.max]
 tess3.cand <- unique(tess3.scan.annotation$Gene)[1:id.max]
 prop <- mean(snmf.cand %in% tess3.cand)
@@ -191,28 +191,3 @@ tess3.cand <- unique(tess3.scan.annotation$Gene)[1:id.max]
 prop <- mean(snmf.cand %in% tess3.cand)
 print(paste0("prop of snmf cand in tess3 cand = ",prop))
 ```
-
-## Comparison with a list  loci/gene
-
-```{r}
-interesting.loci <- read.table("OFcandidates.txt", header = TRUE) %>% 
-  mutate(Location = paste0(Chromosome,":",Positions))
-interesting.gene <- merge(interesting.loci, vep.res, by = c("Location"))
-```
-
-### Top 100
-
-```{r}
-# top 100 loci
-id.max <- 100
-tess3.cand <- sort(tess3.scan$q.value, index.return = TRUE)$ix[1:id.max]
-prop <- mean(interesting.loci$Index %in% tess3.cand)
-print(paste0("prop of interesting loci in tess3 cand list  = ",prop))
-
-# top 100 gene
-id.max <- 100
-tess3.cand <- unique(tess3.scan.annotation$Gene)[1:id.max]
-prop <- mean(unique(interesting.gene$Gene) %in% tess3.cand)
-print(paste0("prop of interesting gene in tess3 cand list  = ",prop))
-```
-
