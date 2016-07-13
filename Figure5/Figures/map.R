@@ -42,8 +42,7 @@ col.palette = list(
   colorRampPalette(c("white",cols[6]))(9)[5:9]
 )
 
-
-pdf(paste0(fig.dir,"map.pdf"), width = page$width * 0.8,height = page$heigth * 0.8)
+pdf(paste0(fig.dir,"map.R.pdf"), width = page$width * 0.8,height = page$heigth * 0.8)
 par(mar = c(0,0,0,0))
 layout(matrix(1:2, nrow = 2, ncol = 1), heights = c(6,1))
 par(mar = c(0,0,0.5,0))

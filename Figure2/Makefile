@@ -1,25 +1,5 @@
-RSCRIPT = Rscript
-PRINT = @echo -e "\e[1;34mBuilding $@\e[0m"
-FIGURES_SRC = $(wildcard Figures/*.R)
-FIGURES = $(FIGURES_SRC:.R=.pdf)
-EXPERIMENTS_SRC = $(wildcard Experiments/*.R)
+FIGURES = Figures/figure2.pdf
+EXPERIMENTS = Experiments/Results/rmse.fst.RData
+RMARKDOWNS =
 
-.PHONY: all figures
-
-all: figures
-
-################################################################################
-# Figures
-
-figures: $(FIGURES)
-
-Figures/%.pdf: Figures/%.R setup.R
-	$(PRINT)
-	$(RSCRIPT) $<
-
-################################################################################
-# Experiements
-
-Experiments/Results/%.RData: Experiments/%.R setup.R
-	$(PRINT)
-	$(RSCRIPT) $<
+include ../figures.mk
