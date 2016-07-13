@@ -1,4 +1,5 @@
-.PHONY : all run shell start stop rm build push rm_image pull rstudio-server push_binary pull_binary rm_binary
+.PHONY : all run shell start stop rm build push \
+rm_image pull rstudio-server push_binary pull_binary rm_binary test_deployment
 
 all:
 
@@ -64,3 +65,9 @@ pull_binary:
 
 rm_binary:
 	rm -i $(BINARY_FILE)
+
+################################################################################
+# deployment
+
+test_deployment:
+	Rscript testdeployment.R
