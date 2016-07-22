@@ -1,0 +1,109 @@
+\documentclass{article}
+
+\usepackage{amssymb}
+\usepackage{verbatim}
+\usepackage[francais,english]{babel}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{lineno}
+\usepackage[latin1]{inputenc}
+\usepackage[table]{xcolor}
+
+\definecolor{light-gray}{gray}{0.8}
+
+
+
+
+\begin{document}
+
+\thispagestyle{empty}
+\baselineskip 0.8cm
+
+\title{Fast inference of individual admixture coefficients using geographic data}
+
+\date{}
+
+\author{Kevin Caye$^1$, Flora Jay$^2$, Olivier Michel$^3$, Olivier Fran\c cois$^1$}
+
+\maketitle
+
+\begin{center}
+$^1$ Universit\'e Grenoble-Alpes, Centre National de la Recherche Scientifique, TIMC-IMAG UMR 5525, 38042 Grenoble, France.\\
+$^2$ Universit\'e de Flora.
+$^3$ Universit\'e Grenoble-Alpes, Centre National de la Recherche Scientifique, Gipsa-lab UMR 5216, 38042 Grenoble, France.
+\end{center}
+
+
+\vspace{2cm}
+
+\noindent{\bf Keywords:} Ancestry estimation programs, Geographic data, Fast algorithms.  
+
+\clearpage
+\newpage 
+
+
+\linenumbers 
+
+\begin{center}
+{\bf Abstract}
+\end{center}
+
+Accurately evaluating the distribution of genetic ancestry across geographic space is one of the main questions addressed by evolutionary biologists. This question is commonly addressed through the application of Bayesian estimation programs which allow their users to estimate individual admixture proportions and allele frequency differences among inferred ancestral populations. Following the explosion of high-throughput sequencing studies, several recent algorithms have been proposed to cope with the increase in the size of the data, but only a few of those algorithms make an explicit use of individual geographic coordinates. Integrating geographic proximity in fast ancestry estimation algorithms remains an open mathematical and computational challenge. 
+
+In this study, we introduce two new algorithms that use geographic information and genetic data to estimate ancestry proportions and ancestral genotype frequencies. The new algorithms combine matrix factorization methods and spatial statistics to provide estimates of ancestry matrices based on least-squares approximations.  We demonstrate the benefit of using spatial algorithms through extensive computer simulations, and we provide an example of application of our new algorithms to a set of spatially referenced samples for {\it Arabidopsis thaliana}.  Without lost of statistical accuracy, the new algorithms exhibit runtimes that are much shorter than those observed for previously developed spatial methods. Our algorithms are implemented in the {\tt R} package, {\tt tess3r}, which is available from public repositories. 
+ 
+
+
+
+\pagestyle{empty}
+
+\newpage 
+
+
+\input{intro.tex}
+\input{method.tex}
+\input{results.tex}
+\input{discussion.tex}
+
+\section*{Acknowledgments} 
+
+This work has been partially supported by the LabEx PERSYVAL-Lab (ANR-11-LABX-0025-01) funded by the French program
+Investissement d\rq{}Avenir. Olivier Fran\c cois acknowledges support from Grenoble INP and from the Agence Nationale de la Recherche, project AFRICROP ANR-13-BSV7-0017.
+
+
+\newpage 
+
+\input{references.tex}
+\input{tables_figures.tex}
+
+
+
+
+\clearpage
+\newpage
+
+
+
+
+
+
+\clearpage
+\newpage
+
+\section*{Figure legends}
+
+
+\noindent{\bf Figure 1.} 
+
+\vspace{1cm}
+
+\noindent{\bf Figure 2.} 
+
+
+
+
+
+
+\end{document}
+
+    
