@@ -7,7 +7,7 @@
 
 .DS_Store
 
-# emacs 
+# emacs
 *~
 \#*\#
 
@@ -25,7 +25,7 @@ Data/vep/arabidopsis_thaliana/
 *.pdf
 *.aux
 *.log
-*.tex
+Figure*/Figures/*.tex
 
 # Rmd
 *.html
