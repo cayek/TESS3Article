@@ -11,7 +11,7 @@ library(doParallel)
 #library(LEA)
 library(DescTools)
 source("../functions.R")
-
+source("../figureParams.R")
 
 ################################################################################
 # Functions
@@ -21,8 +21,3 @@ source("../functions.R")
 res.dir <- "./Experiments/Results/"
 fig.dir <- "./Figures/"
 data.dir <- "../Data/"
-
-
-################################################################################
-# page size
-page <- list(width = 8.3, heigth = 11.7)

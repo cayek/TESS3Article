@@ -43,7 +43,7 @@ alert <- merge(toplot, flowering.gene, by = c("Location"))
 label <- alert %>% group_by(Gene) %>% filter(row_number(index)==1)
 label$index[2] = label$index[2] + 8000
 label$index[3] = label$index[3] - 8000
-## plot
+## plot with annotation
 pl <- ggplot(toplot, aes(x = index, y = -log(pvalue),
                          color = as.factor(Chromosome), fill = Chromosome)) +
   geom_point() +
@@ -53,13 +53,29 @@ pl <- ggplot(toplot, aes(x = index, y = -log(pvalue),
   geom_point(data=alert, colour = "red") +
   geom_text(data=label, aes(x = index, y = 0, label=label), vjust = 1.8, check_overlap = FALSE) 
 
+## plot without annotation
+toplot <- toplot %>% filter(pvalue != 0.0)
+pl <- ggplot(toplot, aes(x = index, y = -log(pvalue),
+                         color = as.factor(Chromosome), fill = Chromosome)) +
+  geom_point() +
+  labs(y = "-log(pvalue)", x = "locus index") +
+  scale_y_continuous(limits = c(0,510)) + 
+  scale_x_continuous(breaks = sapply(1:5, function(i) mean(toplot[toplot$Chromosome == i, ]$index)),
+                     labels = 1:5) +
+  xlab("Chromosome") +
+  ylab("$-log(p-{\\rm value})$") +
+  gtheme +
+  theme(legend.position = "none") 
+  
+
+
 
 pdf(paste0(fig.dir,"manhattanplot.pdf"), width = page$width * 0.8,
-    height = page$heigth * 0.8)
+    height = page$heigth * 0.4)
 pl
 dev.off()
 
 png(paste0(fig.dir,"manhattanplot.png"), width = page$width * 0.8,
-    height = page$heigth * 0.8,res = 600, units = "in")
+    height = page$heigth * 0.4,res = 600, units = "in")
 pl
 dev.off()

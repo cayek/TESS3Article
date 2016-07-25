@@ -1,5 +1,5 @@
 FIGURES = Figures/map.R.pdf Figures/manhattanplot.png \
-Figures/Kselection.pdf Figures/variogram.pdf
+Figures/figure5.pdf 
 EXPERIMENTS = Experiments/Results/TAIR9/err.K110.rep5.RData \
 Experiments/Results/TAIR9/snpsTAIR9vepTAIR10.RData \
 Experiments/Results/TAIR9/variogram.RData \

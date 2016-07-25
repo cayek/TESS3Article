@@ -52,6 +52,6 @@ plot(Q = tess3Main.obj$Q,
      raster.filename = NULL, interpolation.function = kriging(), col = NULL,
      col.palette = col.palette, map = TRUE, palette.step = 9,
      axes = FALSE, xlab = '', ylab = '', cex = 0.25)
-
-barplot.default(t(Q), border = NA, col = cols, axes = FALSE)
+par(mar = c(0,3,1,0))
+barplot.default(t(Q), border = NA, col = cols, ylab = "Admixture coeficient (Q)")
 dev.off()

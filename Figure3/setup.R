@@ -8,6 +8,7 @@ library(tikzDevice)
 library(gridExtra)
 library(cowplot)
 source("../functions.R")
+source("../figureParams.R")
 
 ################################################################################
 # dir
@@ -15,7 +16,3 @@ res.dir <- "./Experiments/Results/"
 fig.dir <- "./Figures/"
 data.dir <- "../Data/"
 
-
-################################################################################
-# page size
-page <- list(width = 8.3, heigth = 11.7)
