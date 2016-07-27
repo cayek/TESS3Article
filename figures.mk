@@ -8,7 +8,7 @@ PRINT = @echo "$(GREEN)Building $@ $(NC)"
 ################################################################################
 # command
 RSCRIPT = Rscript
-LATEX = pdflatex
+LATEX = lualatex -shell-escape
 
 .PHONY: all figures rmarkdowns experiments
 
@@ -23,7 +23,7 @@ Figures/%.png: Figures/%.R setup.R
 		$(PRINT)
 		$(RSCRIPT) $<
 
-Figures/%.R.pdf: Figures/%.R setup.R
+Figures/%_R.pdf: Figures/%.R setup.R
 	$(PRINT)
 	$(RSCRIPT) $<
 

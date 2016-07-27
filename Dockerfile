@@ -1,4 +1,51 @@
-FROM rocker/hadleyverse
+FROM debian:jessie
+
+################################################################################
+# latex
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	texlive \
+	texlive-generic-recommended \
+	texlive-latex-recommended \
+	texlive-fonts-recommended \
+	texlive-extra-utils \
+	texlive-font-utils \
+	texlive-xetex \
+	texlive-luatex \
+	fonts-lmodern \
+	fonts-font-awesome \
+  xzdec \
+  latexmk \
+	&& apt-get autoclean -y \
+	&& apt-get clean -y \
+
+# RUN tlmgr init-usertree \
+#     && tlmgr install mathdesign \
+#     && tlmgr install babel-french \
+#     && tlmgr install graphics-def
+
+################################################################################
+# R and perl
+RUN apt-get update \
+    && apt-get install -y \
+    r-base \
+    r-base-dev \
+    perl
+
+################################################################################
+# some classic packages
+RUN apt-get update \
+    && apt-get install -y \
+    emacs \
+    zsh \
+    ssh \
+    git
+
+# oh-my-zsh
+RUN git clone git://github.com/bwithem/oh-my-zsh.git ~/.oh-my-zsh \
+    && cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc \
+    && chsh -s /bin/zsh
+RUN sed -i -E "s/^ZSH_THEME=.*$/ZSH_THEME="af-magic"/" ~/.zshrc
 
 ################################################################################
 # ensempl api
@@ -67,34 +114,15 @@ RUN cd /root/ensembl-tools-release-84/scripts/variant_effect_predictor && \
 ################################################################################
 # R package
 
-RUN R -e 'install.packages(c("data.table", "maps", "ggplot2","reshape2","dplyr","gridExtra","cowplot","ggmap","xtable","devtools"))'
-RUN R -e 'install.packages(c("tikzDevice"))'
-RUN R -e 'install.packages(c("raster"))'
-RUN R -e 'devtools::install_github("BioShock38/TESS3_encho_sen@8e4b4cc87e12ceeb21d3b768564ed3a7bd17737c")'
-RUN R -e 'devtools::install_github("cayek/TESS3/tess3r@experiment")'
-RUN R -e 'devtools::install_github("BioShock38/TESS3_encho_sen@e0fac131439ef856171d778f8ed94cfbc63f1c41")'
-RUN R -e 'source("https://bioconductor.org/biocLite.R");biocLite("qvalue");biocLite("LEA")'
-RUN R -e 'install.packages(c("sp", "rgeos", "rgdal", "cartography", "leaflet"))'
-RUN R -e 'install.packages(c("foreach", "doParallel", "DescTools"))'
-RUN R -e 'install.packages(c("permute"))'
-
-################################################################################
-# some classic packages
-RUN apt-get update \
-    && apt-get install -y \
-    emacs \
-    zsh \
-    xzdec \
-    latexmk
-
-# oh-my-zsh
-RUN git clone git://github.com/bwithem/oh-my-zsh.git ~/.oh-my-zsh \
-    && cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc \
-    && chsh -s /bin/zsh
-RUN sed -i -E "s/^ZSH_THEME=.*$/ZSH_THEME="af-magic"/" ~/.zshrc
-
-################################################################################
-# latex packages
-RUN apt-get install texlive-pictures
-RUN tlmgr init-usertree \
-    && tlmgr install mathdesign
+# RUN R -e 'install.packages(c("data.table", "maps", "ggplot2","reshape2","dplyr","gridExtra","cowplot","ggmap","xtable","devtools"))'
+# RUN R -e 'install.packages(c("tikzDevice"))'
+# RUN R -e 'install.packages(c("raster"))'
+# RUN R -e 'devtools::install_github("BioShock38/TESS3_encho_sen@8e4b4cc87e12ceeb21d3b768564ed3a7bd17737c")'
+# RUN R -e 'devtools::install_github("cayek/TESS3/tess3r@experiment")'
+# RUN R -e 'devtools::install_github("BioShock38/TESS3_encho_sen@e0fac131439ef856171d778f8ed94cfbc63f1c41")'
+# RUN R -e 'source("https://bioconductor.org/biocLite.R");biocLite("qvalue");biocLite("LEA")'
+# RUN R -e 'install.packages(c("sp", "rgeos", "rgdal", "cartography", "leaflet"))'
+# RUN R -e 'install.packages(c("foreach", "doParallel", "DescTools"))'
+# RUN R -e 'install.packages(c("permute"))'
+# RUN R -e 'install.packages(c("rworldmap"))'
+# RUN R -e 'install.packages(c("rasterVis"))'

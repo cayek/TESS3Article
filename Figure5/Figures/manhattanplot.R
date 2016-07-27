@@ -51,7 +51,7 @@ pl <- ggplot(toplot, aes(x = index, y = -log(pvalue),
   theme_gray() +
   theme(legend.position = "none") +
   geom_point(data=alert, colour = "red") +
-  geom_text(data=label, aes(x = index, y = 0, label=label), vjust = 1.8, check_overlap = FALSE) 
+  geom_text(data=label, aes(x = index, y = 0, label = label), vjust = 1.8, check_overlap = FALSE) 
 
 ## plot without annotation
 toplot <- toplot %>% filter(pvalue != 0.0)
@@ -63,17 +63,21 @@ pl <- ggplot(toplot, aes(x = index, y = -log(pvalue),
   scale_x_continuous(breaks = sapply(1:5, function(i) mean(toplot[toplot$Chromosome == i, ]$index)),
                      labels = 1:5) +
   xlab("Chromosome") +
-  ylab("$-log(p-{\\rm value})$") +
+  ylab("$-\log(p{\\rm -value})$") +
   gtheme +
   theme(legend.position = "none") 
   
 
 
-
-pdf(paste0(fig.dir,"manhattanplot.pdf"), width = page$width * 0.8,
-    height = page$heigth * 0.4)
+tikzDevice::tikz(paste0(fig.dir,"manhattanplot.tex"), width = page$width * 0.8,
+                 height = page$heigth * 0.4, standAlone = TRUE)
 pl
 dev.off()
+# 
+# pdf(paste0(fig.dir,"manhattanplot.pdf"), width = page$width * 0.8,
+#     height = page$heigth * 0.4)
+# pl
+# dev.off()
 
 png(paste0(fig.dir,"manhattanplot.png"), width = page$width * 0.8,
     height = page$heigth * 0.4,res = 600, units = "in")

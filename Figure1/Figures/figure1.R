@@ -62,12 +62,12 @@ pl.L.D <- ggplot(toplot %>% filter(variable == "rmseQ"), aes(x = L, y = rmse.mea
   scale.linetype + 
   scale.color
 
-
+#options(tikzDefaultEngine = "luatex")
 tikzDevice::tikz(paste0(fig.dir,"figure1.tex"), width = 0.7 * page$width,
   height = 0.7 * page$heigth, standAlone = TRUE)
 plot_grid(pl.n.A, pl.n.B, pl.L.C, pl.L.D, ncol = 2, labels = c("A", "B", "C", "D"))
 dev.off()
-bup <- getwd()
-setwd(fig.dir)
-tools::texi2dvi("figure1.tex", pdf = TRUE)
-setwd(bup)
+# bup <- getwd()
+# setwd(fig.dir)
+# tools::texi2dvi("figure1.tex", pdf = TRUE)
+# setwd(bup)

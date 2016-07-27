@@ -26,6 +26,12 @@ Data/vep/arabidopsis_thaliana/
 *.aux
 *.log
 Figure*/Figures/*.tex
+*.dvi
+*.ok
+*.notok
+*.out
+*.auxlock
+*.synctex.gz
 
 # Rmd
 *.html

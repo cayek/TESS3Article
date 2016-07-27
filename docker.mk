@@ -6,7 +6,7 @@ docker_run:
 	docker run -it --name $(CONTAINER_NAME) -w /data -v $(shell pwd):/data -d -P $(IMAGE_NAME)
 
 docker_shell:
-	docker exec -it $(CONTAINER_NAME) bash
+	docker exec -it $(CONTAINER_NAME) zsh
 
 docker_rstudio:
 	$(INTERNET_BROWSER) $(shell docker port $(CONTAINER_NAME) 8787) &
