@@ -14,3 +14,10 @@
 
 # README of the project
 - logo : travis and docker-hub
+- Make the section How to reproduce everything: put here all the procedure to reproduce anything
+
+# find a way to test experiment script whithout running them
+- ... or not ...
+
+# Makefile
+- make experiements
