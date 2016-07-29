@@ -4,6 +4,8 @@ services:
   - docker
 
 before_script:
+  # rmk: this will pull the image from dockerhub,
+  # so dockerhub must be up to date
   - make docker_run
 
 script:
