@@ -22,7 +22,7 @@ pl <- ggplot(toplot ,aes(x = m.ms, y = auc.mean, col = Methods, linetype = Metho
   ylab("AUC") +
   gtheme +
   theme(legend.position = c(0.8,0.2)) +
-  scale.linetype + 
+  scale.linetype +
   scale.color
 pl
 
@@ -32,7 +32,7 @@ tikzDevice::tikz(paste0(fig.dir,"figure3.tex"), width = 0.7 * page$width,
                  height = 0.7 * page$heigth, standAlone = TRUE)
 pl
 dev.off()
-bup <- getwd()
-setwd(fig.dir)
-tools::texi2dvi("figure3.tex",pdf = TRUE)
-setwd(bup)
+# bup <- getwd()
+# setwd(fig.dir)
+# tools::texi2dvi("figure3.tex",pdf = TRUE)
+# setwd(bup)

@@ -1,4 +1,4 @@
-FIGURES = Figures/map.pdf Figures/manhattanplot.png \
+FIGURES = Figures/map.pdf Figures/manhattanplot.pdf \
 Figures/figure5.pdf
 EXPERIMENTS = Experiments/Results/TAIR9/err.K110.rep5.RData \
 Experiments/Results/TAIR9/snpsTAIR9vepTAIR10.RData \

@@ -8,7 +8,7 @@ PRINT = @echo "$(GREEN)Building $@ $(NC)"
 ################################################################################
 # command
 RSCRIPT = Rscript
-LATEX = lualatex -shell-escape
+LATEX = lualatex -shell-escape --interaction=nonstopmode
 
 .PHONY: all figures rmarkdowns experiments
 

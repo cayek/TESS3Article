@@ -10,6 +10,7 @@ figures:
 	$(MAKE) figures -C Figure2
 	$(MAKE) figures -C Figure3
 	$(MAKE) figures -C Figure4
+	$(MAKE) figures -C Figure5
 
 article: figures
 	$(MAKE) -C Article
