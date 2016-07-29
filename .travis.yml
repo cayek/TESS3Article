@@ -1,15 +1,19 @@
+# safelist
+branches:
+  only:
+  - deploy
+
 sudo: required
 
 services:
   - docker
 
 before_script:
-  # rmk: this will pull the image from dockerhub,
-  # so dockerhub must be up to date
+  - make docker_build
   - make docker_run
+  - make pull_binary
 
 script:
-  - make pull_binary
   - docker exec -it tess3_article make article
 
 # see https://docs.travis-ci.com/user/deployment/releases
