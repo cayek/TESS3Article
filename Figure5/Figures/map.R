@@ -116,8 +116,9 @@ mappl <- ggplot() +
   geom_path(data = europe, aes(x = long, y = lat, group = group)) +
   coord_equal() + 
   geom_point(data = as.data.frame(coord), aes(x = long, y = lat), size = 0.1) + 
-  theme_map()
-
+  gtheme +
+  xlab("Longitute") +
+  ylab("Latitude")
 
 ################################################################################
 # barplot
@@ -126,28 +127,24 @@ brplot <- ggplot(toplot, aes(x = index, y = value)) +
   geom_bar(stat = "identity", aes(color = variable)) +
   gtheme +
   theme(legend.position = "none",
-        axis.title.y = element_blank(),
-        axis.line.x = element_blank(),
-        axis.text.x = element_blank(),
         axis.ticks.x = element_blank(),
+        axis.text.x = element_blank(),
         panel.background = element_blank(),
-        panel.border = element_blank(),
         panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        plot.background = element_blank()) +
+        panel.grid.minor = element_blank()) +
   xlab("Individual") +
-  ylab("Admixture \n coefficient (Q)") +
+  ylab("Admixture\n\ coefficient ($Q$)") +
   scale_y_continuous(breaks = c(0.0,0.5,1.0))
 
 ################################################################################
 # Plot
-tikzDevice::tikz(paste0(fig.dir,"map.tex"), width = 0.7 * page$width,
+tikzDevice::tikz(paste0(fig.dir,"map.tex"), width = 0.85 * page$width,
                  height = 0.5 * page$heigth, standAlone = TRUE)
-plot_grid(mappl, brplot, ncol = 1, labels = c("A", "B"), rel_heights = c(4,1))
+plot_grid(mappl, brplot, ncol = 1, labels = c("A", "B"), rel_heights = c(3,1), vjust = c(1.5, -0.5))
 dev.off()
 
-# pdf(paste0(fig.dir,"map_R.pdf"), width = 0.7 * page$width,
-#     height = 0.35 * page$heigth)
-# plot_grid(mappl, brplot, ncol = 1, labels = c("A", "B"), rel_heights = c(4,1))
+# pdf(paste0(fig.dir,"map_R.pdf"),width = 0.85 * page$width,
+#               height = 0.5 * page$heigth)
+# plot_grid(mappl, brplot, ncol = 1, labels = c("A", "B"), rel_heights = c(3,1), vjust = c(0, 0.1))
 # dev.off()
 

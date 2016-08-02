@@ -19,7 +19,7 @@ variogram.pl <- ggplot(vario.gen, aes(x = h, y = semi.variance, size = size)) +
   scale_size_continuous(range = c(1,3)) +
   guides(size = guide_legend(title = "Bin size")) +
   gtheme +
-  theme(legend.position = c(0.8,0.2))
+  theme(legend.position = c(0.8,0.3))
 
 
 ################################################################################
@@ -44,7 +44,7 @@ selection.pl <- ggplot(toplot) +
   gtheme 
 
 
-tikzDevice::tikz(paste0(fig.dir, "figure5.tex"), width = page$width * 0.7,
-                 height = page$heigth * 0.7,standAlone = TRUE)
-plot_grid(variogram.pl, selection.pl, nrow = 2, labels = c("A", "B"))
+tikzDevice::tikz(paste0(fig.dir, "figure5.tex"), width = page$width * 0.85,
+                 height = page$heigth * 0.25,standAlone = TRUE)
+plot_grid(variogram.pl, selection.pl, nrow = 1, labels = c("A", "B"))
 dev.off()

@@ -16,13 +16,13 @@ load(paste0(res.dir,"runtimes.RData"))
 toplot <- df.n  %>% group_by(method, n) %>%
   mutate(mean = mean(it), N = length(it), sd = sd(it), se = sd / sqrt(N)) %>%
   rename(Methods = method)
-pl.it.n <- ggplot(toplot ,aes(x = n, y = mean, col = Methods, linetype = Methods)) +
+pl.it.n <- ggplot(toplot ,aes(x = n, y = mean, col = Methods, linetype = Methods, shape = Methods)) +
   geom_line() +
   geom_point() +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.0) +
   theme_bw() +
   xlab("") +
-  ylab("Number of iterations") +
+  ylab("Number of iterations \n") +
   gtheme +
   theme(legend.position = "none") +
   scale.linetype +
@@ -31,14 +31,14 @@ pl.it.n <- ggplot(toplot ,aes(x = n, y = mean, col = Methods, linetype = Methods
 toplot <- df.n  %>% group_by(n, method) %>%
   mutate(mean = mean(time.per.it.mean), N = length(time.per.it.mean), sd = sd(time.per.it.mean), se = sd / sqrt(N)) %>%
   rename(Methods = method)
-pl.time.n <- ggplot(toplot ,aes(x = n, y = mean, col = Methods, linetype = Methods)) +
+pl.time.n <- ggplot(toplot ,aes(x = n, y = mean, col = Methods, linetype = Methods, shape = Methods)) +
   geom_line() +
   geom_point() +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = .1) +
   theme_bw() +
   scale_y_log10() +
   xlab("Number of individuals ($n$)") +
-  ylab("Time per iteration (minutes)") +
+  ylab("Time per iteration \n(seconds)") +
   gtheme +
   theme(legend.position = "none") +
   scale.linetype +
@@ -47,7 +47,7 @@ pl.time.n <- ggplot(toplot ,aes(x = n, y = mean, col = Methods, linetype = Metho
 toplot <- df.L  %>% group_by(method, L) %>%
   mutate(mean = mean(it), N = length(it), sd = sd(it), se = sd / sqrt(N)) %>%
   rename(Methods = method)
-pl.it.L <- ggplot(toplot ,aes(x = L, y = mean, col = Methods, linetype = Methods)) +
+pl.it.L <- ggplot(toplot ,aes(x = L, y = mean, col = Methods, linetype = Methods, shape = Methods)) +
   geom_line() +
   geom_point() +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = .1) +
@@ -63,7 +63,7 @@ toplot <- df.L  %>% group_by(L, method) %>%
   mutate(mean = mean(time.per.it.mean), N = length(time.per.it.mean), sd = sd(time.per.it.mean), se = sd / sqrt(N)) %>%
   rename(Methods = method)
 
-pl.time.L <- ggplot(toplot ,aes(x = L, y = mean, col = Methods, linetype = Methods)) +
+pl.time.L <- ggplot(toplot ,aes(x = L, y = mean, col = Methods, linetype = Methods, shape = Methods)) +
   geom_line() +
   geom_point() +
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = .1) +
@@ -77,8 +77,8 @@ pl.time.L <- ggplot(toplot ,aes(x = L, y = mean, col = Methods, linetype = Metho
   scale.color
 
 
-tikzDevice::tikz(paste0(fig.dir,"figure4.tex"), width = 0.7 * page$width,
-                 height = 0.7 * page$heigth, standAlone = TRUE)
+tikzDevice::tikz(paste0(fig.dir,"figure4.tex"), width = 0.85 * page$width,
+                 height = 0.5 * page$heigth, standAlone = TRUE)
 plot_grid(pl.it.n, pl.it.L, pl.time.n, pl.time.L, ncol = 2, labels = c("A", "B", "C", "D"))
 dev.off()
 # bup <- getwd()

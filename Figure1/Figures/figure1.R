@@ -13,7 +13,7 @@ toplot <- df.n  %>%
   mutate(rmse.mean = mean(rmse), N = length(rmse), sd = sd(rmse), se = sd / sqrt(N)) %>%
   mutate(Methods = method)
 
-pl.n.A <- ggplot(toplot %>% filter(variable == "rmseG"),aes(x = n, y = rmse.mean, col = Methods, linetype = Methods)) +
+pl.n.A <- ggplot(toplot %>% filter(variable == "rmseG"),aes(x = n, y = rmse.mean, col = Methods, linetype = Methods, shape = Methods)) +
   geom_errorbar(aes(ymin = rmse.mean - se, ymax = rmse.mean + se), width = .1) +
   geom_line() +
   geom_point() +
@@ -24,7 +24,7 @@ pl.n.A <- ggplot(toplot %>% filter(variable == "rmseG"),aes(x = n, y = rmse.mean
   scale.linetype + 
   scale.color
 
-pl.n.B <- ggplot(toplot %>% filter(variable == "rmseQ"),aes(x = n, y = rmse.mean, col = Methods, linetype = Methods)) +
+pl.n.B <- ggplot(toplot %>% filter(variable == "rmseQ"),aes(x = n, y = rmse.mean, col = Methods, linetype = Methods, shape = Methods)) +
   geom_errorbar(aes(ymin = rmse.mean - se, ymax = rmse.mean + se), width = .1) +
   geom_line() +
   geom_point() +
@@ -40,7 +40,7 @@ toplot <- df.L  %>%
   group_by(nsites.neutral, method, variable) %>% 
   mutate(rmse.mean = mean(rmse), N = length(rmse), sd = sd(rmse), se = sd / sqrt(N), L = mean(L))
 
-pl.L.C <- ggplot(toplot %>% filter(variable == "rmseG"), aes(x = L, y = rmse.mean, col = method, linetype = method)) +
+pl.L.C <- ggplot(toplot %>% filter(variable == "rmseG"), aes(x = L, y = rmse.mean, col = method, linetype = method, shape = method)) +
   geom_errorbar(aes(ymin = rmse.mean - se, ymax = rmse.mean + se), width = .1) +
   geom_line() +
   geom_point() +
@@ -51,7 +51,7 @@ pl.L.C <- ggplot(toplot %>% filter(variable == "rmseG"), aes(x = L, y = rmse.mea
   scale.linetype + 
   scale.color
 
-pl.L.D <- ggplot(toplot %>% filter(variable == "rmseQ"), aes(x = L, y = rmse.mean, col = method, linetype = method)) +
+pl.L.D <- ggplot(toplot %>% filter(variable == "rmseQ"), aes(x = L, y = rmse.mean, col = method, linetype = method, shape = method)) +
   geom_errorbar(aes(ymin = rmse.mean - se, ymax = rmse.mean + se), width = .1) +
   geom_line() +
   geom_point() +
@@ -63,8 +63,8 @@ pl.L.D <- ggplot(toplot %>% filter(variable == "rmseQ"), aes(x = L, y = rmse.mea
   scale.color
 
 #options(tikzDefaultEngine = "luatex")
-tikzDevice::tikz(paste0(fig.dir,"figure1.tex"), width = 0.7 * page$width,
-  height = 0.7 * page$heigth, standAlone = TRUE)
+tikzDevice::tikz(paste0(fig.dir,"figure1.tex"), width = 0.85 * page$width,
+  height = 0.5 * page$heigth, standAlone = TRUE)
 plot_grid(pl.n.A, pl.n.B, pl.L.C, pl.L.D, ncol = 2, labels = c("A", "B", "C", "D"))
 dev.off()
 # bup <- getwd()

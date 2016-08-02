@@ -13,12 +13,12 @@ toplot <- df %>%
 levels(toplot$Methods)[1] <- "APLS"
 levels(toplot$Methods)[3] <- "before-admixure"
 
-pl <- ggplot(toplot ,aes(x = m.ms, y = auc.mean, col = Methods, linetype = Methods)) +
+pl <- ggplot(toplot ,aes(x = m.ms, y = auc.mean, col = Methods, linetype = Methods, shape = Methods)) +
   geom_errorbar(aes(ymin = auc.mean - se, ymax = auc.mean + se), width = 0.0) +
   geom_line() +
   geom_point() +
   theme_bw() +
-  xlab("$m/m_s$") +
+  xlab("Intensity of selection ($m/m_s$)") +
   ylab("AUC") +
   gtheme +
   theme(legend.position = c(0.8,0.2)) +
@@ -28,8 +28,8 @@ pl
 
 
 
-tikzDevice::tikz(paste0(fig.dir,"figure3.tex"), width = 0.7 * page$width,
-                 height = 0.7 * page$heigth, standAlone = TRUE)
+tikzDevice::tikz(paste0(fig.dir,"figure3.tex"), width = 0.85 * page$width,
+                 height = 0.5 * page$heigth, standAlone = TRUE)
 pl
 dev.off()
 # bup <- getwd()

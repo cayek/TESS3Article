@@ -50,8 +50,8 @@ pl <- ggplot(toplot, aes(x = index, y = -log(pvalue),
   labs(y = "-log(pvalue)", x = "locus index") +
   theme_gray() +
   theme(legend.position = "none") +
-  geom_point(data=alert, colour = "red") +
-  geom_text(data=label, aes(x = index, y = 0, label = label), vjust = 1.8, check_overlap = FALSE)
+  geom_point(data = alert, colour = "red") +
+  geom_text(data = label, aes(x = index, y = 0, label = label), vjust = 1.8, check_overlap = FALSE)
 
 ## plot without annotation
 toplot <- toplot %>% filter(pvalue != 0.0)
@@ -69,8 +69,8 @@ pl <- ggplot(toplot, aes(x = index, y = -log(pvalue),
 
 
 
-tikzDevice::tikz(paste0(fig.dir,"manhattanplot.tex"), width = page$width * 0.8,
-                 height = page$heigth * 0.4, standAlone = TRUE)
+tikzDevice::tikz(paste0(fig.dir,"manhattanplot.tex"), width = page$width * 0.85,
+                 height = page$heigth * 0.5, standAlone = TRUE)
 pl
 dev.off()
 #
@@ -79,7 +79,7 @@ dev.off()
 # pl
 # dev.off()
 
-png(paste0(fig.dir,"manhattanplot.png"), width = page$width * 0.8,
-    height = page$heigth * 0.4,res = 600, units = "in")
-pl
-dev.off()
+# png(paste0(fig.dir,"manhattanplot.png"), width = page$width * 0.8,
+#     height = page$heigth * 0.4,res = 600, units = "in")
+# pl
+# dev.off()
