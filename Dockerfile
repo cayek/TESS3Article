@@ -65,73 +65,13 @@ ENV PATH $HOME/src/ensembl-tools/scripts/assembly_converter:$HOME/src/ensembl-to
 ################################################################################
 # R package
 
-## Install some external dependencies.
-RUN apt-get update \
-  && apt-get install -y libcurl4-openssl-dev libgdal1-dev libproj-dev \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/ \
-  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+ADD ./Environment/R_dependencies.sh /tmp/R_dependencies.sh
+ADD ./Environment/dependencies.R /tmp/dependencies.R
 
-
-RUN install2.r --error \
-		data.table \
-    maps \
-    ggplot2 \
-		ggthemes \
-    reshape2 \
-    dplyr \
-    gridExtra \
-    cowplot \
-    ggmap \
-    xtable \
-    devtools \
-    tikzDevice \
-    raster \
-    sp \
-    rgeos \
-    rgdal \
-    cartography \
-    leaflet \
-    foreach \
-    doParallel \
-    DescTools \
-    permute \
-    rworldmap \
-    rasterVis \
-		crayon \
-		MASS \
-		Rcpp \
-		lintr \
-		lint
-
-RUN R -e 'devtools::install_github("BioShock38/TESS3_encho_sen@8e4b4cc87e12ceeb21d3b768564ed3a7bd17737c")'
-RUN R -e 'devtools::install_github("BioShock38/TESS3_encho_sen@e0fac131439ef856171d778f8ed94cfbc63f1c41")'
-RUN R -e 'source("https://bioconductor.org/biocLite.R");biocLite("qvalue");biocLite("LEA")'
-# RUN R -e 'devtools::install_github("cayek/TESS3/tess3r@093d62e68e376384cd6f6b6fc5790dcf0db7c2cd")'
-# do not pass why ?
-
+RUN /bin/bash /tmp/R_dependencies.sh
+RUN Rscript --vanilla /tmp/dependencies.R
 ################################################################################
-# additional latex packages
+# latex
 
-RUN apt-get update && apt-get install -y texlive-science
-
-RUN tlmgr init-usertree \
-&& tlmgr option repository ftp://tug.org/historic/systems/texlive/2013/tlnet-final \
-     && tlmgr --no-persistent-downloads update --all \
-     && tlmgr --no-persistent-downloads install mathdesign \
-     && tlmgr --no-persistent-downloads install babel-french \
-     && tlmgr --no-persistent-downloads install graphics-def \
-     && tlmgr --no-persistent-downloads install xcolor \
-     &&	tlmgr --no-persistent-downloads install preview \
-     &&	tlmgr --no-persistent-downloads install tikz-cd \
-     &&	tlmgr --no-persistent-downloads install pgf \
-     && tlmgr --no-persistent-downloads install ifmtarg \
-     && tlmgr --no-persistent-downloads install xifthen \
-     && tlmgr --no-persistent-downloads install lineno \
-     && tlmgr --no-persistent-downloads install lettrine \
-     && tlmgr --no-persistent-downloads install datetime \
-     && tlmgr --no-persistent-downloads install etoolbox \
-     && tlmgr --no-persistent-downloads install fmtcount \
-     && tlmgr --no-persistent-downloads install enumitem \
-     && tlmgr --no-persistent-downloads install authblk \
-     && tlmgr --no-persistent-downloads install lineno
+ADD ./Environment/latex_dependencies.sh /tmp/latex_dependencies.sh
+RUN bash /tmp/latex_dependencies.sh
