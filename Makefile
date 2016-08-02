@@ -1,4 +1,4 @@
-.PHONY: all test_deployment figures
+.PHONY: all test_deployment figures env_R env_latex
 
 all:
 
@@ -32,3 +32,13 @@ include	binary.mk
 
 test_deployment:
 	Rscript testdeployment.R
+
+###############################################################################
+# environment
+
+env_R: Environment/dependencies.R Environment/R_dependencies.sh
+	bash Environment/R_dependencies.sh
+	Rscript --vanilla Environment/dependencies.R
+	
+env_latex: Environment/latex_dependencies.sh
+		bash Environment/latex_dependencies.sh

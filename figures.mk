@@ -19,15 +19,14 @@ all: figures rmarkdowns experiments
 
 figures: $(FIGURES)
 
-Figures/%.png: Figures/%.R setup.R
-		$(PRINT)
-		$(RSCRIPT) $<
+Figures/%.png: Figures/%.pdf
+		convert -density 600 $< -quality 100 $@
 
-Figures/%_R.pdf: Figures/%.R setup.R
+Figures/%_R.pdf: Figures/%.R setup.R ../figureParams.R
 	$(PRINT)
 	$(RSCRIPT) $<
 
-Figures/%.tex: Figures/%.R setup.R
+Figures/%.tex: Figures/%.R setup.R ../figureParams.R
 	$(PRINT)
 	$(RSCRIPT) $<
 

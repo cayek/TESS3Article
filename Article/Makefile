@@ -7,6 +7,7 @@ PRINT = @echo "$(GREEN)Building $@ $(NC)"
 
 LATEX = latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make
 SRC = $(wildcard *.tex)
+MAIN = draft
 
 .PHONY: all
 
@@ -17,3 +18,9 @@ view: draft.pdf
 
 draft.pdf: $(SRC)
 		$(LATEX) draft.tex
+
+clean:
+	$(LATEXMK) -C $(MAIN)
+	rm -f $(MAIN).pdfsync
+	rm -rf *~ *.tmp
+	rm -f *.bbl *.blg *.aux *.end *.fls *.log *.out *.fdb_latexmk

@@ -5,8 +5,6 @@ branches:
 
 sudo: required
 
-services:
-  - docker
 
 before_script:
   - make docker_build
