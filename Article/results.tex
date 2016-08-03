@@ -19,11 +19,12 @@ In simulations of outlier loci, we used the area under the precision-recall curv
  
 \paragraph{Application to European ecotypes of {\it Arabidopsis  thaliana}.} We used  the APLS algorithm to survey spatial population genetic structure and perform a genome scan for adaptive alleles in European ecotypes of the plant species {\it A.  thaliana}. The cross-entropy criterion decreased rapidly from $K=1$ to $K=3$ clusters,  indicating  that  there were three 
 main ancestral groups in Europe, corresponding to geographic regions in Western Europe, Eastern and Central Europe and Northern Scandinavia. For $K$ greater than four, the values of the cross-entropy criterion decreased in a slower way, indicating that subtle substructure resulting from complex historical isolation-by-distance  processes could also be detected (Figure 5). 
-%The kriging analysis provided an approximate range of  $r = xx$km for the spatial variogram, which was consistent with the default parameter set for the geographic weights in the Laplacian matrix. 
-Figure 6 displays a $Q$-matrix estimate  interpolated on a geographic map of Europe for $K = 6$ ancestral groups. The estimated admixture coefficients provided clear evidence for e thclustering of the ecotypes in spatially homogeneous genetic groups. 
+The kriging analysis provided an approximate range of  $r = 1.5e^2$km for the spatial variogram (Figure 5).
+%, which was consistent with the default parameter set for the geographic weights in the Laplacian matrix. 
+Figure 6 displays a $Q$-matrix estimate  interpolated on a geographic map of Europe for $K = 6$ ancestral groups. The estimated admixture coefficients provided clear evidence for the clustering of the ecotypes in spatially homogeneous genetic groups. 
 
 \paragraph{Targets of selection in {\it A.  thaliana} genomes.}  Tests based on the $F^Q_{\rm ST}$  statistic were applied to the 1,095 ecotype data to reveal new targets of natural selection in the {\it A. thaliana} genome. {\it A. thaliana} occurs in a broad variety of habitats, and local adaptation to the environment is acknowledged to be important in shaping its genetic diversity through space (Hancock et al. 2011, Fournier-Level et al. 2011). 
-APLS algorithm was run on 1,095 European lines of {\it A. thaliana} with $K=6$ ancestral populations. After controlling the FDR at the level $1\%$, the program produced a list of 12,701 candidate SNPs, including linked loci and representing 0.3\% of the total number of loci. 
+APLS algorithm was run on 1,095 European lines of {\it A. thaliana} with $K=6$ ancestral populations and $\sigma = 1.5$ for the range parameter. After controlling the FDR at the level $1\%$, the program produced a list of 12,701 candidate SNPs, including linked loci and representing 0.3\% of the total number of loci. 
 %We observed a fold enrichment of 1.000152 in the targeted SNPs were found in exomic sequences (A VEP analysis indicated  that blabla). 
  
  The top 100 candidates included SNPs in the flowering-related genes SHORT VEGETATIVE PHASE (SVP), COP1-interacting protein 4.1 (CIP4.1) and FRIGIDA (FRI) with $p{\rm -values}$ of 0. 
