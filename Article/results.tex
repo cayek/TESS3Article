@@ -22,31 +22,37 @@ main ancestral groups in Europe, corresponding to geographic regions in Western 
 %The kriging analysis provided an approximate range of  $r = xx$km for the spatial variogram, which was consistent with the default parameter set for the geographic weights in the Laplacian matrix. 
 Figure 6 displays a $Q$-matrix estimate  interpolated on a geographic map of Europe for $K = 6$ ancestral groups. The estimated admixture coefficients provided clear evidence for e thclustering of the ecotypes in spatially homogeneous genetic groups. 
 
-\paragraph{Targets of selection in {\it A.  thaliana} genomes.}  Tests based on the $F^Q_{\rm ST}$  statistic were applied to the 1,095 ecotype data to reveal new targets of natural selection in the {\it A. thaliana} genome. {\it A. thaliana} occurs in a broad variety of habitats, and local adaptation to the environment is acknowledged to be important in shaping its genetic diversity through space (Hancock et al. 2011, Fournier-Level et al. 2011). Table 1 reports a short list of candidate SNPs for local adaptation in European lines of {\it A. thaliana} obtained from APLS tests with $K=6$ ancestral populations.  After controlling the FDR at the level $1\%$, the program produced a list of xxx candidate SNPs, including linked loci and representing 0.3\% of the total number of loci. We observed that 498 targeted SNPs were found in exomic sequences (A VEP analysis indicated  that blabla). 
+\paragraph{Targets of selection in {\it A.  thaliana} genomes.}  Tests based on the $F^Q_{\rm ST}$  statistic were applied to the 1,095 ecotype data to reveal new targets of natural selection in the {\it A. thaliana} genome. {\it A. thaliana} occurs in a broad variety of habitats, and local adaptation to the environment is acknowledged to be important in shaping its genetic diversity through space (Hancock et al. 2011, Fournier-Level et al. 2011). 
+APLS algorithm was run on 1,095 European lines of {\it A. thaliana} with $K=6$ ancestral populations. After controlling the FDR at the level $1\%$, the program produced a list of 12,701 candidate SNPs, including linked loci and representing 0.3\% of the total number of loci. 
+%We observed a fold enrichment of 1.000152 in the targeted SNPs were found in exomic sequences (A VEP analysis indicated  that blabla). 
  
- Our list included SNPs in the chromosome 2 (AT2G27140, AT2G47940) and in the chromosome 5 (AT5G08000, AT5G07390) that were previously reported as being involved in biological processes related to heat stress and defence response. 
+ The top 100 candidates included SNPs in the flowering-related genes SHORT VEGETATIVE PHASE (SVP), COP1-interacting protein 4.1 (CIP4.1) and FRIGIDA (FRI) with $p{\rm -values}$ of 0. 
+ These genes were detected by previous scans for selection on this dataset (Horton et al. 2012).
+ %These genes were previously reported as being involved in biological processes related to heat stress and defence response 
  
- We performed a gene ontology enrichment analysis using AMIGO2 in order to evaluate which molecular functions might be involved in local adaptation in Europe (Carbon et al. 2009). We found significant enrichment in molecular functions linked to catalytic activity (catalysis of biochemical reaction at physiological temperatures, GO:0003824, P = 1.6e-8) and hydrolase activity (G0:0016787, P = 2.7e-6).
+ We performed a gene ontology enrichment analysis using AmiGO in order to evaluate which biological functions might be involved in local adaptation in Europe (Carbon et al. 2009). 
+ We found a significant over representation of genes involved in cellular processes (fold enrichment of 1.06 and $p{\rm -value}$ with Bonferonni correction of $2.15 e^{-02}$).
+% We found significant enrichment in molecular functions linked to catalytic activity (catalysis of biochemical reaction at physiological temperatures, GO:0003824, P = 1.6e-8) and hydrolase activity (G0:0016787, P = 2.7e-6).
 
 
-
-HORTON:
-
-"flowering-related genes" 
-
-SHORT VEGETATIVE PHASE (SVP), a MADS box gene that negatively regulates the transition to flowering
-
-(Differentiating Fennoscandia and Eastern Europe/Russia)
-
-COP1-interacting protein 4.1 (CIP4.1)
-
-FRIGIDA (FRI)
-
-FLOWERING LOCUS C (FLC),
-
-DELAY OF GERMINATION 1 (DOG1)
-
-(Differentiating Fennoscandia from North-West Europe)
+% 
+% HORTON:
+% 
+% "flowering-related genes" 
+% 
+% SHORT VEGETATIVE PHASE (SVP), a MADS box gene that negatively regulates the transition to flowering
+% 
+% (Differentiating Fennoscandia and Eastern Europe/Russia)
+% 
+% COP1-interacting protein 4.1 (CIP4.1)
+% 
+% FRIGIDA (FRI)
+% 
+% FLOWERING LOCUS C (FLC),
+% 
+% DELAY OF GERMINATION 1 (DOG1)
+% 
+% (Differentiating Fennoscandia from North-West Europe)
 
 
 

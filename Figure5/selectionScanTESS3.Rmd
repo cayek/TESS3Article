@@ -15,7 +15,7 @@ data.file <-
 load(data.file)
 K <- 6
 n <- nrow(call_method_75_TAIR9.europe$X)
-fdr.level <- 1e-10
+res <- list(fdr.level = 1e-2, top = 100)
 ```
 
 ## TESS3 with $K = 6$ and $\sigma = 1.5$
@@ -29,35 +29,35 @@ load(res.file)
 tess3.scan <- data.frame(fst = tess3Main.obj$Fst)
 
 # compute score
-tess3.scan <- tess3.scan %>% mutate(z.score = sqrt(fst*(n-K)/(1-fst)))
+tess3.scan <- tess3.scan %>% mutate(z.score = sqrt(fst*(n - K)/(1 - fst)))
 
 # compute gif
-lambda <- median(tess3.scan$z.score^2)/qchisq(1/2, df = K-1)
+lambda <- median(tess3.scan$z.score ^ 2)/qchisq(1 / 2, df = K - 1)
 print(paste0("gif = ", lambda))
 
 # compute pvalue
 tess3.scan <- tess3.scan %>% mutate(p.value = pchisq(z.score ^ 2 / lambda, 
-                                                     df = K-1, 
-                                                     lower = FALSE),
+                                                     df = K - 1, 
+                                                     lower.tail = FALSE),
                                     log.p.value = pchisq(z.score ^ 2 / lambda, 
-                                                     df = K-1, 
-                                                     lower = FALSE, 
-                                                     log.p = TRUE))
+                                                         df = K - 1, 
+                                                         lower.tail = FALSE, 
+                                                         log.p = TRUE))
 hist(tess3.scan$p.value)
 ```
 
 ### Manhattanplot 
 
 ```{r tess3.man, dependson = c("tess3.pvalue")}
-ggplot(tess3.scan, aes(x = seq_along(fst), y = - log.p.value)) + 
+ggplot(tess3.scan, aes(x = seq_along(fst), y = -log.p.value)) + 
   geom_point() + 
   scale_y_continuous(limits = c(0,600))
 ```
 
-### FDR control with qvalue
+### qvalue
 
 ```{r tess3.fdr, dependson=c("tess3.pvalue")}
-qvals <- qvalue(tess3.scan$p.value, fdr.level = fdr.level)
+qvals <- qvalue(tess3.scan$p.value, fdr.level = res$fdr.level)
 plot(qvals)
 cat("proportion of significant SNPs = ",sum(qvals$significant) / length(tess3.scan$p.value),"\n")
 cat("number of significant SNPs = ",sum(qvals$significant) ,"\n")
@@ -74,12 +74,39 @@ load(res.file)
 tess3.scan.annotation <- cbind(tess3.scan, call_method_75_TAIR9.europe$locus.coord)
 tess3.scan.annotation <- tess3.scan.annotation %>% mutate(Location = paste0(Chromosome,":",Positions),
                                   index = seq_along(fst)) 
+# save in res
+res$tess3.scan <- tess3.scan.annotation
+
 tess3.scan.annotation <- merge(tess3.scan.annotation, vep.res, by = c("Location")) %>%
   arrange(q.value)
 
+# save in res
+res$tess3.scan.annotation <- tess3.scan.annotation
 ```
 
+## Analysis of fdr controled list
+
+snps in "Transcript" sequence (exomique sequence)
+```{r}
+fdrlist <- res$tess3.scan.annotation %>% filter(q.value < res$fdr.level)
+
+t.test(x = !is.na(fdrlist$Feature_type), 
+       y = !is.na(res$tess3.scan.annotation$Feature_type),
+       alternative = "greater")
+
+prop.test(c(sum(!is.na(fdrlist$Feature_type)),
+            sum(!is.na(res$tess3.scan.annotation$Feature_type))),
+          n = c(length(!is.na(fdrlist$Feature_type)),
+                length(!is.na(res$tess3.scan.annotation$Feature_type))),
+          alternative = "g", correct = FALSE)
+
+cat( "fold enrichement = ",mean(!is.na(fdrlist$Feature_type)) / mean(!is.na(res$tess3.scan.annotation$Feature_type)))
+```
+
+
 ## Flowering gene
+
+### Flowering gene in top 100 list
 
 ```{r}
 # flowering genes
@@ -93,27 +120,58 @@ flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT4G00650") 
 # FLOWERING LOCUS C (FLC),
 flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT5G10140") %>% mutate(label = "FLC"))
 # DELAY OF GERMINATION 1 (DOG1)
-flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT5G45830")%>% mutate(label = "DOG1"))
+flowering.gene <- rbind(flowering.gene, vep.res %>% filter(Gene == "AT5G45830") %>% mutate(label = "DOG1"))
 
-toplot <- merge(flowering.gene, tess3.scan.annotation) %>%
-  select(Chromosome, Positions, Gene, fst, p.value, label) %>%
-  arrange(p.value) 
+# remove mulitple row
+aux <- unique(res$tess3.scan.annotation %>% 
+  dplyr::select(Location, fst, q.value, p.value))[1:res$top,]
+toplot <- unique(merge(aux, flowering.gene) %>%
+  dplyr::select(Location, Gene, fst, q.value, p.value, label) %>%
+  arrange(p.value))
 knitr::kable(toplot)
 ```
+
+### Flowering gene in top fdr list
+
+```{r}
+# remove mulitple row
+aux <- res$tess3.scan.annotation %>%
+  filter(q.value <= res$fdr.level) %>%
+  dplyr::select(Location, fst, q.value, p.value)
+
+toplot <- unique(merge(aux, flowering.gene) %>%
+  dplyr::select(Location, Gene, fst, q.value, p.value, label) %>%
+  arrange(p.value))
+knitr::kable(toplot)
+```
+
 
 ## Overepresentation test with panther
 
 ### list generated with the fdr controled
 
 ```{r}
-fdr.level <- 1e-5
-genes <- tess3.scan.annotation %>%
-  filter(q.value <= fdr.level) %>% 
+genes <- res$tess3.scan.annotation %>%
+  filter(q.value <= res$fdr.level) %>% 
   group_by(Gene) %>% filter(row_number(index) == 1) %>% dplyr::select(Gene)
 
 cat("number of significant gene = ",nrow(genes) ,"\n")
-write.table(genes, file = "panther.txt", quote = FALSE, row.names = FALSE, col.names = FALSE)
+write.table(genes, file = "panther_fdr.txt", quote = FALSE, row.names = FALSE, col.names = FALSE)
 ```
 
-Now yan can feed http://www.pantherdb.org/ with `panther.txt`
+### list generated with the fdr controled
+
+```{r}
+top100.index <- res$tess3.scan$index[order(res$tess3.scan$p.value)[1:res$top]]
+
+genes <- res$tess3.scan.annotation %>%
+  filter(index %in% top100.index) %>% 
+  group_by(Gene) %>% filter(row_number(index) == 1) %>% dplyr::select(Gene)
+
+cat("number of significant gene = ",nrow(genes) ,"\n")
+write.table(genes, file = "panther_top.txt", quote = FALSE, row.names = FALSE, col.names = FALSE)
+```
+
+
+Now yan can feed http://www.pantherdb.org/ with `panther_[top|fdr].txt`
 
