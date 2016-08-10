@@ -1,8 +1,3 @@
-# travis
-- use travis test plan for private repository
-- make branch to not use too much build !! see for build specific branch : https://docs.travis-ci.com/user/customizing-the-build/#Building-Specific-Branches
-- build the article and deploy it on github
-
 # README of the project
 - Make the section How to reproduce everything: put here all the procedure to reproduce anything
 
@@ -23,9 +18,8 @@
 - relire (rmk : verifier les ref au figure)
 - verifier les notations maths
 - verifier certains param de simu
-
-## dernier paragraphe de la section résultats 354 à 347 (modif dans le tex)
-- plus les annotations vep (les stat renvoyé par vep) (reférence)
+- check citation sur le variogram : Cressie 1993
+- Check le résultat sur la convergence de AQP : Bertsekas 1999
 
 ## comparaison avec sNMF
 - faire la même que avec TESS3 avec sNMF
