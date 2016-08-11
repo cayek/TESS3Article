@@ -15,9 +15,6 @@
 - install ms.
 
 # Article
-- relire (rmk : verifier les ref au figure)
-- verifier les notations maths
-- verifier certains param de simu
 - check citation sur le variogram : Cressie 1993
 - Check le résultat sur la convergence de AQP : Bertsekas 1999
 
