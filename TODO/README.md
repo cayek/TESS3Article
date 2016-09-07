@@ -19,6 +19,8 @@
 - Check le résultat sur la convergence de AQP : Bertsekas 1999
 - URGENT : log ou log10 ?
 - format for anal of applied stat
+- enlever les e^... (of a du le faire)
+- ajouter un lien vers ?...
 
 ## comparaison avec sNMF
 - faire la même que avec TESS3 avec sNMF
