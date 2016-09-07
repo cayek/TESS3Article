@@ -7,7 +7,7 @@
 %%
 %%
 
-In this section we present two new algorithms for estimating individual admixture coefficient and ancestral genotype frequency matrices assuming $K$ ancestral populations ($K$ is estimated). The new algorithms require individual geographic coordinates to perform estimation from  sampled genotypes.
+In this section we present two new algorithms for estimating individual admixture coefficients and ancestral genotype frequencies assuming $K$ ancestral populations ($K$ is estimated). The new algorithms require individual geographic coordinates to perform estimation from sampled genotypes.
 
 \paragraph{$Q$ and $G$-matrices.} Consider a genotypic matrix, {\bf Y}, recording data for $n$ individuals at $L$ polymorphic loci for a $p$-ploid species (common values for $p$ are $p = 1,2$). For autosomal SNPs in a diploid organism, the genotype at locus $\ell$  is an integer number 0, 1 or 2, corresponding to the number of reference alleles at this locus. In our algorithms, disjunctive forms are used  to encode each genotypic value as the indicator of a heterozygote or a homozygote locus (Frichot et al. 2014). For $p$-ploid organisms, there are $(p+1)$ possible genotypic values at each locus, and each value corresponds to a unique disjunctive form. While our focus is on SNPs, the algorithms presented in this section extend to multi-allelic loci without loss of generality. 
 
@@ -16,22 +16,21 @@ Our algorithms provide statistical estimates for the $Q$-matrix which contains t
 $$
 \quad {\bf Q},{\bf G} \geq 0 \, , \quad  \sum_{k=1}^K q_{ik} = 1 \, , \quad \sum_{j=0}^p g_{k\ell}(j) = 1 \, , \quad j = 0,1,\dots, p,
 $$
-for all $i$ and $\ell$. Using disjunctive forms and the law of total probability, estimates of {\bf Q} and {\bf G} can be obtained by factorizing the genotypic matrix as follows ${\bf Y}$=${\bf Q}\,{\bf G}^T$ (Frichot et al. 2014). Thus the inference problem can be solved by using constrained (non-negative) matrix factorization methods (Cichocki et al. 2009, Lee and Seung 1999).  In the sequel, we shall use the notations  $\Delta_Q$ and  $\Delta_G$ to represent the sets of probabilistic constraints put on the {\bf Q} and {\bf G} matrices respectively. 
+for all $i$ and $\ell$. Using disjunctive forms and the law of total probability, estimates of {\bf Q} and {\bf G} can be obtained by factorizing the genotypic matrix as follows ${\bf Y}$=${\bf Q}\,{\bf G}^T$ (Frichot et al. 2014). Thus the inference problem can be solved by using constrained nonnegative matrix factorization methods (Lee and Seung 1999, Cichocki et al. 2009).  In the sequel, we shall use the notations  $\Delta_Q$ and  $\Delta_G$ to represent the sets of probabilistic constraints put on the {\bf Q} and {\bf G} matrices respectively. 
 
 
 
 
- \paragraph{Geographic weighting.} Geography is introduced in the matrix factorization problem by using weights that impose regularity constraints on ancestry estimates over geographic space. 
- In this study, the definition of geographic weights is based on the spatial coordinates of the sampling sites: Samples that are close to each other are given more weights than samples that are far apart. 
- The computation of the weights starts with building a graph from the sampling sites, $(x_i)$ with the weight matrix defined as follows:
+ \paragraph{Geographic weighting.} Geography is introduced in the matrix factorization problem by using weights that impose regularity constraints on ancestry estimates over geographic space. The definition of geographic weights is based on the spatial coordinates of the sampling sites, $(x_i)$. Samples close to each other are given more weights than samples that are far apart. The computation of the weights starts with building a nearest-neighbor graph from the sampling sites. Then the nearest-neighbor graph is used to define the weight matrix as follows
+
 
 $$
 w_{ij} = \exp( - {\rm dist}( x_i, x_j )^2/ \sigma^2)
 $$
 
- \noindent where dist$( x_i, x_j )$ denotes the geodesic distance between the sites $x_i$ and  $x_j$, and $\sigma$ is a range parameter. By default, the range parameter was set to 5 percent of the average distance between sites. Values for the range parameter may also be investigated by using spatial variograms (Cressie 1993). 
- 
-Next, we introduce the {\it Laplacian matrix} associated with the geographic weight matrix, {\bf W}. The Laplacian matrix is defined as ${\bf \Lambda}$ =  {\bf D} $-$ {\bf W}  where  {\bf D} is the diagonal matrix with entries 
+\noindent where dist$( x_i, x_j )$ denotes the geodesic distance between sites $x_i$ and  $x_j$, and $\sigma$ is a range parameter. In pratical implementations of the weight matrix, the number of neighbor is set to a fixed value ranging between 10 and 20. By default, the range parameter is set to 5 percent of the average distance between pairs of sites. Values for the range parameter may also be investigated by using spatial variograms (Cressie 1993). 
+
+Next, we introduce the {\it Laplacian matrix} associated with the geographic weight matrix, {\bf W}. The Laplacian matrix is defined as ${\bf \Lambda}$ =  {\bf D} $-$ {\bf W}  where  {\bf D} is a diagonal matrix with entries 
 $d_{ii} = \sum_{j = 1}^n w_{ij}$,  for  $i = 1, \dots, n$ (Belkin and Nigoyi 2003). Elementary matrix algebra shows that 
 
 $$
@@ -40,13 +39,13 @@ $$
 
  \noindent  where $\|  u \|^2$ is the square norm of the vector $u$ (Cai et al. 2011). Assuming that geographically close individuals are more likely to share ancestry than individuals at distant sites  is thus equivalent to minimizing the quadratic form ${\cal C}({\bf Q}) ={\rm Tr} ({\bf Q}^T {\bf \Lambda} {\bf Q})$ while estimating the matrix ${\bf Q}$. 
 
-\paragraph{Least-squares minimization problems.} As for {\tt tess3}, estimating the matrices ${\bf Q}$ and {\bf G } can be achieved through the minimization of a least-squares functional 
+\paragraph{Least-squares minimization problems.} Estimating the matrices ${\bf Q}$ and {\bf G } is performed through the minimization of the least-squares functional defined as follows
 
 $$
 {\rm LS}({\bf Q}, {\bf G}) =   \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} +  \alpha \, {\cal C}({\bf Q}) \, , 
 $$
 
- \noindent  under the sets of constraints $\Delta_Q$ and  $\Delta_G$ (Caye et al. 2016). Here, the notation $\|  {\bf M}  \|_{\rm F}$ denotes the Frobenius norm of a matrix, {\bf M}. A regularization parameter, $\alpha$, controls the regularity of ancestry estimates over geographic space.  Large values of $\alpha$ imply that ancestry coefficients have similar values for nearby individuals, whereas small values ignore spatial autocorrelation in observed allele frequencies. In pratice, the default value for the regularization parameter is set to $\alpha = (p+1)L/K \lambda_{\max}$, where $\lambda_{\max}$ is the largest eigenvalue of the Laplacian matrix. Using the least-squares approach, the number of ancestral populations, $K$, can be chosen after the evaluation of a cross-entropy criterion for each $K$ (Alexander and Lange 2011, Frichot et al. 2014, Frichot et Fran\c cois 2015).  
+ \noindent  under the sets of constraints $\Delta_Q$ and  $\Delta_G$ (Caye et al. 2016). Here, the notation $\|  {\bf M}  \|_{\rm F}$ denotes the Frobenius norm of a matrix, {\bf M}. A regularization parameter, $\alpha$, controls the regularity of ancestry estimates over geographic space.  Large values of $\alpha$ imply that ancestry coefficients have similar values for nearby individuals, whereas small values ignore spatial autocorrelation in observed allele frequencies. In pratice, the default value for the regularization parameter is set to $\alpha = (p+1)L/K \lambda_{\max}$, where $\lambda_{\max}$ is the largest eigenvalue of the Laplacian matrix. Using the least-squares approach, the number of ancestral populations, $K$, can be chosen after the evaluation of a cross-validation criterion for each $K$ (Alexander and Lange 2011, Frichot et al. 2014, Frichot et Fran\c cois 2015).  
 
 
 \paragraph{The Alternating Quadratic Programming (AQP) method.} Because the poly\-edrons $\Delta_Q$ and  $\Delta_G$ are convex sets, the above least-squares estimation problem is amenable to the application of quadratic programming techniques (Bertsekas 1999). The APQ algorithm starts from initial values for the $G$ and $Q$-matrices, and alternates two steps. The first step computes the matrix {\bf G} while  {\bf Q} is kept fixed, and second step permutates the roles of {\bf G} and {\bf Q}.  Let us assume that {\bf Q} is fixed and write {\bf G} in a vectorial form, $g = {\rm vec({\bf G})}$. The first step of algorithm actually solves the following quadratic programming problem. Find  
@@ -55,21 +54,23 @@ $$
 g^\star = \arg \min  ( -2  v^T_Q \, g + g^T {\bf D}_Q g ) \, ,  
 $$
 
-\noindent where $g \in \Delta_G$, ${\bf D}_Q = {\bf I}_{(p+1)L} \otimes {\bf Q}^T {\bf Q}$ and $v_Q = {\rm vec}({\bf Q}^T {\bf Y})$. Here, $\otimes$ denotes the Kronecker product and ${\bf I}_d$ is the identity matrix with $d$ dimensions.  Now, let us that {\bf G} is set to the value obtained after the first step, and write {\bf Q} in a vectorial form, $q = {\rm vec({\bf Q})}$. The second step solves the following quadratic programming problem 
+\noindent where $g \in \Delta_G$, ${\bf D}_Q = {\bf I}_{(p+1)L} \otimes {\bf Q}^T {\bf Q}$ and $v_Q = {\rm vec}({\bf Q}^T {\bf Y})$. Here, $\otimes$ denotes the Kronecker product and ${\bf I}_d$ is the identity matrix with $d$ dimensions.  Now, consider that {\bf G} is the value obtained after the first step of the algorithm, and write {\bf Q} in a vectorial form, $q = {\rm vec({\bf Q})}$. The second step solves the following quadratic programming problem. Find
 
 $$  
 q^\star = \arg \min ( -2 v^T_G \, q + q^T {\bf D}_G q ) \,  ,
 $$
 
-\noindent where  $q \in \Delta_Q$, ${\bf D}_G = {\bf I}_{n} \otimes {\bf G}^T {\bf G }+ \alpha {\bf \Lambda}  \otimes {\bf I}_K$ and $v_G = {\rm vec}({\bf G}^T{\bf  Y}^T)$. Using results from (Bertsekas 1999), the AQP algorithm can be shown to converge to a local solution of the least-squares problem. Thus, using AQP provides theoretical guarantees that the $Q$ and $G$-matrix estimates are correctly computed, a property lacking for other algorithms, such as {\tt structure} or {\tt tess3}.  The computation of the second step of the AQP algorithm has an algorithmic complexity of order $O(n^3)$ which does not improve over the {\tt tess3} method, and can be problematic for large samples ($n$ is the sample size). 
 
-\paragraph{Alternating Projected Least-Squares (APLS).} In this paragraph, we introduce a second estimation algorithm which approximates the solution of the least-squares problem, anf for which the algorithmic complexity is of order $O(n)$, with $n$ the number of samples. The APLS algorithm starts from initial values of the $G$ and $Q$-matrices, and alternates two steps where the matrix {\bf G} is computed  while  {\bf Q} is kept fixed, and {\it vice versa}. Let us assume that the matrix {\bf Q} is known. The first step of the APLS algorithm solves the following minimization problem. Find 
+\noindent where  $q \in \Delta_Q$, ${\bf D}_G = {\bf I}_{n} \otimes {\bf G}^T {\bf G }+ \alpha {\bf \Lambda}  \otimes {\bf I}_K$ and $v_G = {\rm vec}({\bf G}^T{\bf  Y}^T)$. According to (Bertsekas 1999), the AQP algorithm converges to a local solution of the least-squares problem. Thus, using AQP provides theoretical guarantees that the $Q$ and $G$-matrix estimates are correctly computed, a property lacking for other algorithms, such as {\tt structure} or {\tt tess3}.  The computation of the second step of the AQP algorithm has an algorithmic complexity of order $O(n^2)$ which does not improve over Caye et al. 2016Õs method, and can be problematic for large samples ($n$ is the sample size). 
+
+
+\paragraph{Alternating Projected Least-Squares (APLS).} In this paragraph, we introduce an APLS estimation algorithm which approximates the solution of the least-squares problem, and for which the algorithmic complexity is of order $O(n)$, with $n$ the number of samples. The APLS algorithm starts from initial values of the $G$ and $Q$-matrices, and alternates two steps. The matrix {\bf G} is computed  while  {\bf Q} is kept fixed, and {\it vice versa}. Assume that the matrix {\bf Q} is known. The first step of the APLS algorithm solves the following minimization problem. Find 
 
 $$
-{\bf G}^\star = \arg \min  \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} ,
+{\bf G}^\star = \arg \min  \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} \, ,
 $$
 
-\noindent where ${\bf G}^\star$ is a nonnegative matrix. This operation can be done by considering $(p+1)L$ independent minimization problems running in parallel. It is followed by a projection of ${\bf G}^\star$ on the polyedron of constraints $\Delta_G$. For the second step, let us assume that {\bf G} is set to the value obtained after the first step is completed. We compute the eigenvectors, {\bf U}, of the Laplacian matrix, and we define the diagonal matrix diag$({\bf \Lambda})$ formed by the eigenvalues of ${\bf \Lambda}$ (The eigenvalues of ${\bf \Lambda}$ are non-negative real numbers). According to the spectral theorem, we have
+\noindent where ${\bf G}^\star$ is a nonnegative matrix. This operation can be done by considering $(p+1)L$ independent minimization problems running in parallel. It is followed by a projection of ${\bf G}^\star$ on the polyedron of constraints $\Delta_G$. For the second step, assume that {\bf G} is set to the value obtained after the first step is completed. We compute the eigenvectors, {\bf U}, of the Laplacian matrix, and we define the diagonal matrix diag$({\bf \Lambda})$ formed by the eigenvalues of ${\bf \Lambda}$ (The eigenvalues of ${\bf \Lambda}$ are non-negative real numbers). According to the spectral theorem, we have
 
 $$
 {\bf \Lambda} = {\bf U}^T {\rm diag}({\bf \Lambda}) {\bf U} \, .
@@ -87,10 +88,13 @@ $$
 q_i^\star = \arg \min  \|  {\rm proj} ({\bf Y})_i  - {\bf G}^Tq \|^2 + \alpha \lambda_i   \| q \|^2  \, ,
 $$
 
-\noindent where  proj({\bf Y}$)_i$ is the $i$th row of the projected data matrix, proj({\bf Y}). The solutions, $q_i$, are then concatenated into a matrix, {\rm conc}(q), and ${\bf Q}$ is defined as ${\bf U}^T {\rm conc}(q)$ projected on the polyedron $\Delta_Q$. The complexity of the algorithm is driven by the diagonalization of the Laplacian matrix, which is of order $O(n)$. While the theoretical convergence properties of AQP algorithms are lost for APLS algorithms, the APLS algorithms are expected to be good approximations of AQP algorithms running within much shorter time-lags.
+\noindent where  proj({\bf Y}$)_i$ is the $i$th row of the projected data matrix, proj({\bf Y}). The solutions, $q_i$, are then concatenated into a matrix, {\rm conc}(q), and ${\bf Q}$ is defined as ${\bf U}^T {\rm conc}(q)$ projected on the polyedron $\Delta_Q$. The complexity of the algorithm is driven by the diagonalization of the Laplacian matrix, which has complexity of order $O(n)$. While the theoretical convergence properties of AQP algorithms are lost for APLS algorithms, the APLS algorithms are expected to be good approximations of AQP algorithms.
 
 
-\paragraph{Estimation with {\tt tess3}.}  The algorithm implemented in the {\tt tess3} program also provides approximations of the least-squares problem. The {\tt tess3} algorithm first computes the Cholesky decomposition of the Laplacian matrix. Then, by a change of variables, the least-squares problem is transformed into a regularized non-negative matrix factorization problem  (Caye et al. 2016).  Solving the regularized non-negative matrix factorization problem relies on the application of existing methods (Kim and park 2011, Frichot et al. 2014). The methods implemented in {\tt tess3} have an algorithmic complexity that increases linearly with the number of loci, and they lead to estimates that accurately reproduce those of the Monte Carlo algorithms implemented in the Bayesian method {\tt tess} 2.3 (Caye et al. 2016). Like for the AQP method, the {\tt tess3} algorithm have an algorithmic complexity that increases at least quadratically with the sample sizes.  
+
+\paragraph{Estimation with {\tt tess3}.}  The algorithm implemented in Caye et al. 2016Õs  program also provides approximation of the least-squares problem. The {\tt tess3} algorithm first computes the Cholesky decomposition of the Laplacian matrix. Then, by a change of variables, the least-squares problem is transformed into a sparse nonnegative matrix factorization problem  (Caye et al. 2016).  Solving the sparse non-negative matrix factorization problem relies on the application of existing methods (Kim and park 2011, Frichot et al. 2014). The methods implemented in {\tt tess3} have an algorithmic complexity that increases linearly with the number of loci and the number of clusters. They lead to estimates that accurately reproduce those of the Monte Carlo algorithms implemented in the Bayesian method {\tt tess} 2.3 (Caye et al. 2016). Like for the AQP method, the {\tt tess3} algorithms have an algorithmic complexity that increases quadratically with the sample sizes.  
+
+
 
 
 \paragraph{Ancestral population differentiation statistics.} Assuming $K$ ancestral populations, the $Q$ and $G$-matrices  obtained from the AQP and from the APLS algorithms were used to compute single-locus estimates of a population differentiation statistic similar to $F_{\rm ST}$ (Martins et al. 2016), as follows
@@ -99,7 +103,7 @@ $$
 F^{Q}_{\rm ST} = 1 - \sum_{k=1}^K  q_k \frac{f_k (1-f_k)}{f(1-f)} \, ,
 $$
 
-\noindent where $q_k$ is the average of ancestry coefficients over sampled individuals, $q_k = \sum_{i =1}^n q_{ik}/n$, for the cluster $k$, $f_k$ is the ancestral allele frequency in population $k$, and $f = \sum_{k = 1}^K q_k f_k$ (Martins et al. 2016). The locus-specific statistics were used to perform statistical tests of neutrality at each locus, by comparing the observed values to their expectations from the genome-wide background. The test was based on the squared $z$-score statistic, $z^2 = (n-K) F^{Q}_{\rm ST}/(1 - F^{Q}_{\rm ST})$, for which a  $\chi$-squared distribution with $K-1$ degrees of freedom was assumed under the null-hypothesis (Martins et al. 2016). The calibration of the null-hypothesis was achieved by using genomic control to adjust the test statistic for background levels of population structure (Devlin and Roeder 1999, Fran\c cois et al. 2016). After recalibration of the null-hypothesis, the control of false discovery rates was achieved by using the Benjamini-Hochberg algorithm (Benjamini and Hochberg 1995).
+\noindent where $q_k$ is the average of ancestry coefficients over sampled individuals, $q_k = \sum_{i =1}^n q_{ik}/n$, for the cluster $k$, $f_k$ is the ancestral allele frequency in population $k$, and $f = \sum_{k = 1}^K q_k f_k$ (Martins et al. 2016). The locus-specific statistics were used to perform statistical tests of neutrality at each locus, by comparing the observed values to their expectations from the genome-wide background. The test was based on the squared $z$-score statistic, $z^2 = (n-K) F^{Q}_{\rm ST}/(1 - F^{Q}_{\rm ST})$, for which a  chi-squared distribution with $K-1$ degrees of freedom was assumed under the null-hypothesis (Martins et al. 2016). The calibration of the null-hypothesis was achieved by using genomic control to adjust the test statistic for background levels of population structure (Devlin and Roeder 1999, Fran\c cois et al. 2016). After recalibration of the null-hypothesis, the control of false discovery rates was achieved by using the Benjamini-Hochberg algorithm (Benjamini and Hochberg 1995).
 
 
 \paragraph{{\tt R} package.} We implemented the AQP and APLS algorithms in the {\tt R} package {\tt tess3r}, available from Github and submitted to the Comprehensive R Archive Network (R Core Team, 2016).  
@@ -115,7 +119,7 @@ Neutrally evolving ancestral chromosomal segments were generated by simulating D
  We compared the AQP and APLS algorithm estimates with those obtained with the {\tt tess3} algorithm.  Each program was run 5 times.  Using $K = 2$ ancestral populations, we computed the root mean squared error (RMSE) between the estimated and known values of the $Q$-matrix, and between  the estimated and known values of the $G$-matrix. 
 To evaluate the benefit of spatial algorithms, we compared the statistical errors of APLS algorithms to the errors obtained with a method that reproduces the outputs of the {\tt structure} program accurately ({\tt snmf}, Frichot et al. 2014, Frichot and Francois 2015).  To quantify the performances of neutrality tests as a function of ancestral and observed levels of $F_{\rm ST}$, we used the area under the precision-recall curve (AUC) for several values of the selection rate.  Subsamples from a real data set were used to perform a runtime analysis of the AQP and APLS algorithms ({\it A. thaliana} data, see below). Runtimes were evaluated by using a single computer processor unit Intel Xeon 2.0 GHz.
 
-\paragraph{Application to European ecotypes of {\it Arabidopsis  thaliana}.} We used  the APLS algorithm to survey spatial population genetic structure and to investigate the molecular basis of adaptation  by considering SNP data from 1,095  European ecotypes of the plant species {\it A. thaliana} (214$k$ SNPs, Horton et al.  2012). The cross-entropy criterion was used to evaluate the number of clusters in the sample, and a statistical analysis was performed to evaluate the range of the variogram from the data (Cressie 1993). We used {\tt R} functions of the {\tt tess3r} package to display interpolated admixture coefficients on a geographic map of Europe (R Core team 2016). A gene ontology enrichment analysis using the software AMIGO2 was performed in order to evaluate which molecular functions and biological processes might be involved in local adaptation in Europe (Carbon et al. 2009).
+\paragraph{Application to European ecotypes of {\it Arabidopsis  thaliana}.} We used  the APLS algorithm to survey spatial population genetic structure and to investigate the molecular basis of adaptation  by considering SNP data from 1,095  European ecotypes of the plant species {\it A. thaliana} (214k SNPs, Horton et al.  2012). The cross-validation criterion was used to evaluate the number of clusters in the sample, and a statistical analysis was performed to evaluate the range of the variogram from the data (Cressie 1993). We used {\tt R} functions of the {\tt tess3r} package to display interpolated admixture coefficients on a geographic map of Europe (R Core team 2016). A gene ontology enrichment analysis using the software AMIGO (Carbon et al. 2009) was performed in order to evaluate which molecular functions and biological processes might be involved in local adaptation in Europe.
 
 
 
