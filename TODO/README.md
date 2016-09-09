@@ -17,10 +17,8 @@
 # Article
 - check citation sur le variogram : Cressie 1993
 - Check le résultat sur la convergence de AQP : Bertsekas 1999
-- URGENT : log ou log10 ?
-- format for anal of applied stat
-- enlever les e^... (of a du le faire)
 - ajouter un lien vers ?...
+- Enlarge figure legends
 
 ## comparaison avec sNMF
 - faire la même que avec TESS3 avec sNMF
