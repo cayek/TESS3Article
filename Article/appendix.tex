@@ -1,0 +1,112 @@
+
+
+
+\section{Algorithms}\label{app}
+
+
+\subsection{AQP algorithms}
+
+\begin{algo}
+	To solve optimization problem describe by the function LS in~\ref{eq:LS}
+\begin{algorithm}
+ \KwIn{ the data matrix ${\bf Y} \in \{0,1\}^{n \times (d+1) L}$, the laplacian matrix  ${\bf \Lambda}$, the number of ancestral populations $K$, the regularization coefficient  $\lambda$, the maximum number of iteration $itMax$}
+ 
+ \KwOut{the admixture coefficients matrix $Q\in \mathbb{R}^{n \times K}$, the ancestral genotype frequencies matrix $G \in \mathbb{R}^{K \times (d+1) L}$ }
+ 
+ \BlankLine
+  
+ Initialize $Q$ at random \;
+	
+ \For{$it = 1..itMax$}{
+	 \BlankLine
+	 // F optimization step
+	
+      \For{$l = 1..L$}{
+			${\bf Y}^l \leftarrow {\bf Y}_{., (d+1)l..(d+1)l + d}$ \;
+		    $ D \leftarrow Id_{d+1} \otimes Q^T Q$\;
+	
+			$ c \leftarrow Vec(Q^T X^l)$\;
+	
+	      $f^l \in \argmin_{
+			       \substack{
+	          f \in \Delta_F
+	       }
+	     } 
+              - 2 c f + f^T D f$ \;
+	
+	$Vec(F_{(d+1)l..(d+1)l + d, .}^T) \leftarrow f^l$ \;
+	 }
+	 \BlankLine
+	// Q optimization step
+	
+	$ D \leftarrow Id_{n} \otimes F^T F + \lambda L \otimes Id_{K}$ \;
+	
+	 $ c \leftarrow Vec(F^T X^T)$ \;
+	
+      $Vec(Q^T) \in \argmin_{%
+	       \substack{%
+	          q \in \Delta_Q
+	       }
+	     } 
+	     - 2 c q + q^T D q$\;
+	 }
+	% \label{alg:QP}
+\end{algorithm}
+\end{algo}
+\subsection{APLS algorithms}
+
+
+\begin{algorithm}
+\KwIn{ the data matrix ${\bf Y} \in \{0,1\}^{n \times (d+1) L}$, the eigen values and vectors matrices $L$ and $D$ such that ${\bf \Lambda} = R^T D R$, the number of ancestral populations $K$, the regularization coefficient  $\lambda$, the maximum number of iteration $itMax$}
+
+\KwOut{the admixture coefficients matrix $Q\in \mathbb{R}^{n \times K}$, the ancestral genotype frequencies matrix $G \in \mathbb{R}^{K \times (d+1) L}$ }
+
+ \BlankLine
+ 
+ Initialize $Q$ at random \;
+
+ ${\bf Y}_R \leftarrow R {\bf Y}$ \;
+
+ \For{$it = 1..itMax$}{	 
+ 	\BlankLine
+	 // F optimization step
+
+	\For{$j = 1..(D+1)L$}{
+	 $X^j \leftarrow X_{., j}$;
+
+	$f^j \in \argmin_{%
+	       \substack{%
+	          f \in \mathbb{R}^{K}
+	       }
+	       }
+	     || Vec(X^j) - Q f||^2$\;
+
+ $Vec(F_{j, .}^T) \leftarrow f^j $\;
+ }
+
+ Project $F$ such that $G \in \Delta_G$ \;
+ 	\BlankLine
+	 // Q optimization step
+
+ \For{$i = 1..n$}{
+ $X_R^i \leftarrow X_{i, .}$;
+
+ $q_R^i \in \argmin_{%
+       \substack{%
+          q \in \mathbb{R}^{K}
+       }
+       }
+     || Vec({X_R^i}^T) - F q ||^2 + \lambda D_{i,i} ||q||^2$\;
+
+ $Vec({Q_R^T}_{i, .}) \leftarrow q_R^i $\;
+ }
+
+ $Q \leftarrow R^T Q_R$\;
+
+Project $Q$ such that $G \in \Delta_Q$ \;
+ }
+
+ \label{alg:proj}
+ \end{algorithm}
+
+

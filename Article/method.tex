@@ -42,14 +42,16 @@ $$
 
 \paragraph{Least-squares minimization problems} Estimating the matrices ${\bf Q}$ and {\bf G } is performed through the minimization of the least-squares functional defined as follows
 
-$$
-{\rm LS}({\bf Q}, {\bf G}) =   \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} +  \alpha \, {\cal C}({\bf Q}) \, , 
-$$
+\begin{equation}
+\min {\rm LS}({\bf Q}, {\bf G}) =   \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} +  \alpha \, {\cal C}({\bf Q}) \, , 
+\label{eq:LS}
+\end{equation}
 
  \noindent  under the sets of constraints $\Delta_Q$ and  $\Delta_G$~\cite{Caye2016}. Here, the notation $\|  {\bf M}  \|_{\rm F}$ denotes the Frobenius norm of a matrix, {\bf M}. A regularization parameter, $\alpha$, controls the regularity of ancestry estimates over geographic space.  Large values of $\alpha$ imply that ancestry coefficients have similar values for nearby individuals, whereas small values ignore spatial autocorrelation in observed allele frequencies. In pratice, the default value for the regularization parameter is set to $\alpha = (p+1)L/K \lambda_{\max}$, where $\lambda_{\max}$ is the largest eigenvalue of the Laplacian matrix. Using the least-squares approach, the number of ancestral populations, $K$, can be chosen after the evaluation of a cross-validation criterion for each $K$~\citep{Alexander2011, Frichot2014, Frichot2015}.  
 
 
-\paragraph{The Alternating Quadratic Programming (AQP) method} Because the poly\-edrons $\Delta_Q$ and  $\Delta_G$ are convex sets, the above least-squares estimation problem is amenable to the application of quadratic programming techniques~\citep{Bertsekas1995}. The APQ algorithm starts from initial values for the $G$ and $Q$-matrices, and alternates two steps. The first step computes the matrix {\bf G} while  {\bf Q} is kept fixed, and second step permutates the roles of {\bf G} and {\bf Q}.  Let us assume that {\bf Q} is fixed and write {\bf G} in a vectorial form, $g = {\rm vec({\bf G})}$. The first step of algorithm actually solves the following quadratic programming problem. Find  
+\paragraph{The Alternating Quadratic Programming (AQP) method} Because the poly\-edrons $\Delta_Q$ and  $\Delta_G$ are convex sets and the LS function is convex with
+respect to one of the variables ${\bf Q}$ or ${\bf G}$ when the other one is fixed, the above least-squares estimation problem is amenable to the application of block coordinate descent~\citep{Bertsekas1995}. The APQ algorithm starts from initial values for the $G$ and $Q$-matrices, and alternates two steps. The first step computes the matrix {\bf G} while  {\bf Q} is kept fixed, and second step permutates the roles of {\bf G} and {\bf Q}.  Let us assume that {\bf Q} is fixed and write {\bf G} in a vectorial form, $g = {\rm vec({\bf G})}$. The first step of algorithm actually solves the following quadratic programming problem. Find  
 
 $$
 g^\star = \arg \min  ( -2  v^T_Q \, g + g^T {\bf D}_Q g ) \, ,  
@@ -62,7 +64,11 @@ q^\star = \arg \min ( -2 v^T_G \, q + q^T {\bf D}_G q ) \,  ,
 $$
 
 
-\noindent where  $q \in \Delta_Q$, ${\bf D}_G = {\bf I}_{n} \otimes {\bf G}^T {\bf G }+ \alpha {\bf \Lambda}  \otimes {\bf I}_K$ and $v_G = {\rm vec}({\bf G}^T{\bf  Y}^T)$. According to~\cite{Bertsekas1995}, the AQP algorithm converges to a local solution of the least-squares problem. Thus, using AQP provides theoretical guarantees that the $Q$ and $G$-matrix estimates are correctly computed, a property lacking for other algorithms, such as {\tt structure} or {\tt tess3}.  The computation of the second step of the AQP algorithm has an algorithmic complexity of order $O(n^2)$ which does not improve over~\cite{Caye2016}Õs method, and can be problematic for large samples ($n$ is the sample size). 
+\noindent where  $q \in \Delta_Q$, ${\bf D}_G = {\bf I}_{n} \otimes {\bf G}^T {\bf G }+ \alpha {\bf \Lambda}  \otimes {\bf I}_K$ and $v_G = {\rm vec}({\bf G}^T{\bf  Y}^T)$. According to the Corollary 2 of ~\cite{Grippo2000} we can directly write the following convergence result:
+\begin{thm}
+	The AQP algorithm converges to a critical point of the problem~\ref{eq:LS}.
+\end{thm}
+Thus, using AQP provides theoretical guarantees that the $Q$ and $G$-matrix estimates are correctly computed, a property lacking for other algorithms, such as {\tt structure} or {\tt tess3}.  The computation of the second step of the AQP algorithm has an algorithmic complexity of order $O(n^2)$ which does not improve over~\cite{Caye2016}Õs method, and can be problematic for large samples ($n$ is the sample size). 
 
 
 \paragraph{Alternating Projected Least-Squares (APLS)} In this paragraph, we introduce an APLS estimation algorithm which approximates the solution of the least-squares problem, and for which the algorithmic complexity is of order $O(n)$, with $n$ the number of samples. The APLS algorithm starts from initial values of the $G$ and $Q$-matrices, and alternates two steps. The matrix {\bf G} is computed  while  {\bf Q} is kept fixed, and {\it vice versa}. Assume that the matrix {\bf Q} is known. The first step of the APLS algorithm solves the following minimization problem. Find 

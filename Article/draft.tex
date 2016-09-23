@@ -14,6 +14,8 @@
 \usepackage{lineno}
 \RequirePackage{natbib}
 \usepackage{hyperref}
+\usepackage{algorithm2e}
+\RequirePackage{amsthm,amsmath}
 %\usepackage[latin1]{inputenc}
 %\usepackage[table]{xcolor}
 
@@ -22,7 +24,14 @@
 
 % put your definitions there:
 \startlocaldefs
+\numberwithin{equation}{section}
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\theoremstyle{definition}
+\newtheorem{algo}{Algorithm}[section]
 \endlocaldefs
+\DeclareMathOperator*{\argmin}{arg\,min}
+
 
 \begin{document}
 
@@ -93,9 +102,11 @@ Accurately evaluating the distribution of genetic ancestry across geographic spa
 \input{method.tex}
 \input{results.tex}
 \input{discussion.tex}
-\input{tables_figures.tex}
+%\input{tables_figures.tex}
 
 \appendix
+
+\input{appendix.tex}
 
 \section*{Acknowledgements}
 This work has been partially supported by the LabEx PERSYVAL-Lab (ANR-11-LABX-0025-01) funded by the French program Investissement d\rq{}Avenir. Olivier Fran\c cois acknowledges support from Grenoble INP and from the Agence Nationale de la Recherche, project AFRICROP ANR-13-BSV7-0017.
