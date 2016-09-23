@@ -1,4 +1,4 @@
-apt-get update && apt-get install -y texlive-science imagemagick
+apt-get update && apt-get install -y texlive-science imagemagick latexdiff
 
 tlmgr init-usertree \
 && tlmgr option repository ftp://tug.org/historic/systems/texlive/2013/tlnet-final \
