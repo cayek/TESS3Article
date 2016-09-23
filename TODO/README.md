@@ -16,9 +16,11 @@
 
 # Article
 - check citation sur le variogram : Cressie 1993
-- Check le résultat sur la convergence de AQP : Bertsekas 1999
-- ajouter un lien vers ?...
+- ajouter un lien vers ?... le code de l'article
 - Enlarge figure legends
+- mettre un théorème pour le lambda (et la démo) ?
+- démontrer que APLS converge ? ou au moins que l'erreur est borné ...
+- ....
 
 ## comparaison avec sNMF
 - faire la même que avec TESS3 avec sNMF
