@@ -9,7 +9,7 @@ LATEX = latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make
 SRC = $(wildcard *.tex)
 MAIN = draft
 
-.PHONY: all
+.PHONY: all OldVersion
 
 all: draft.pdf
 
@@ -24,3 +24,18 @@ clean:
 	rm -f $(MAIN).pdfsync
 	rm -rf *~ *.tmp
 	rm -f *.bbl *.blg *.aux *.end *.fls *.log *.out *.fdb_latexmk
+
+################################################################################
+# Revision version
+
+TAG=v0.2.1
+
+OldVersion:
+	mkdir OldVersion
+	git --work-tree=./OldVersion/ checkout $(TAG) -- ./Article
+
+diff.tex: $(SRC)
+	latexdiff OldVersion/Article/draft.tex draft.tex --flatten > diff.tex
+
+diff.pdf: diff.tex
+		$(LATEX) diff.tex
