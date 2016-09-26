@@ -35,6 +35,8 @@ Figure*/Figures/*.tex
 *.tex.backup
 *.fdb_latexmk
 *.fls
+Article/diff.tex
+Article/OldVersion/
 
 # Rmd
 *.html
