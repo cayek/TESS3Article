@@ -43,7 +43,7 @@ $$
 
 \paragraph{Least-squares minimization problems} Estimating the matrices ${\bf Q}$ and {\bf G } is performed through the minimization of the least-squares functional defined as follows
 \begin{equation}
-\min {\rm LS}({\bf Q}, {\bf G}) =   \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} +  \alpha (p+1)L/K \lambda_{\max} \, {\cal C}({\bf Q}) \, , 
+\min {\rm LS}({\bf Q}, {\bf G}) =   \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} +  \alpha \frac{(p+1)L}{K \lambda_{\max}} \, {\cal C}({\bf Q}) \, , 
 \label{eq:LS}
 \end{equation}
  \noindent under the sets of constraints $\Delta_Q$ and  $\Delta_G$~\cite{Caye2016}. Here, the notation $\|  {\bf M}  \|_{\rm F}$ denotes the Frobenius norm of a matrix, {\bf M}. The regularization term is normalized by $(p+1)L/K \lambda_{\max}$, where $\lambda_{\max}$ is the largest eigenvalue of the Laplacian matrix. This normalization gives the same order of magnitude to both terms of the problem~\ref{eq:LS}. The regularization parameter $\alpha$ controls the regularity of ancestry estimates over geographic space.  Large values of $\alpha$ imply that ancestry coefficients have similar values for nearby individuals, whereas small values ignore spatial autocorrelation in observed allele frequencies. Using the least-squares approach, the number of ancestral populations, $K$, can be chosen after the evaluation of a cross-validation criterion for each $K$~\citep{Alexander2011, Frichot2014, Frichot2015}.
