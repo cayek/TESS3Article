@@ -3,7 +3,7 @@
 
 \section{New methods}
 
-%% Présenter le problème et la factorisation matricielle
+%% PrÃ©senter le problÃ¨me et la factorisation matricielle
 %%
 %%
 
@@ -17,19 +17,20 @@ Our algorithms provide statistical estimates for the $Q$-matrix which contains t
 $$
 \quad {\bf Q},{\bf G} \geq 0 \, , \quad  \sum_{k=1}^K q_{ik} = 1 \, , \quad \sum_{j=0}^p g_{k\ell}(j) = 1 \, , \quad j = 0,1,\dots, p,
 $$
-for all $i$ and $\ell$. Using disjunctive forms and the law of total probability, estimates of {\bf Q} and {\bf G} can be obtained by factorizing the genotypic matrix as follows ${\bf Y}$=${\bf Q}\,{\bf G}^T$ (Frichot et al. 2014). Thus the inference problem can be solved by using constrained nonnegative matrix factorization methods~\citep{Lee1999, Cichocki2009}.  In the sequel, we shall use the notations  $\Delta_Q$ and  $\Delta_G$ to represent the sets of probabilistic constraints put on the {\bf Q} and {\bf G} matrices respectively. 
-
-
-
+for all $i$ and $\ell$. Using disjunctive forms and the law of total probability, estimates of {\bf Q} and {\bf G} can be obtained by factorizing the genotypic matrix as follows ${\bf Y}$=${\bf Q}\,{\bf G}^T$~\citep{Frichot2014}. Thus the inference problem can be solved by using constrained nonnegative matrix factorization methods~\citep{Lee1999, Cichocki2009}. In the sequel, we shall use the notations  $\Delta_Q$ and $\Delta_G$ to represent the sets of probabilistic constraints put on the {\bf Q} and {\bf G} matrices respectively. 
 
  \paragraph{Geographic weighting} Geography is introduced in the matrix factorization problem by using weights that impose regularity constraints on ancestry estimates over geographic space. The definition of geographic weights is based on the spatial coordinates of the sampling sites, $(x_i)$. Samples close to each other are given more weights than samples that are far apart. The computation of the weights starts with building a nearest-neighbor graph from the sampling sites. Then the nearest-neighbor graph is used to define the weight matrix as follows
-
-
 $$
 w_{ij} = \exp( - {\rm dist}( x_i, x_j )^2/ \sigma^2)
 $$
+\noindent where dist$( x_i, x_j )$ denotes the geodesic distance between sites $x_i$ and  $x_j$, and $\sigma$ is a range parameter. Values for the range parameter may be investigated by using spatial variograms~\citep{Cressie1993}. We propose an extension of the univariate variogram to genotypic data:
+$$
+\gamma(h) = \frac{1}{2 |N(h)|} \sum_{i,j \in N(h)} \frac{1}{L} \sum_{l} |Y_{i,l} - Y_{j,l}|
+$$
+\noindent where $N(h)$ define all the indices of individuals separated by a geographic distance $h$. 
 
-\noindent where dist$( x_i, x_j )$ denotes the geodesic distance between sites $x_i$ and  $x_j$, and $\sigma$ is a range parameter. In pratical implementations of the weight matrix, the number of neighbor is set to a fixed value ranging between 10 and 20. By default, the range parameter is set to 5 percent of the average distance between pairs of sites. Values for the range parameter may also be investigated by using spatial variograms~\citep{Cressie1993}. 
+Theorem???
+
 
 Next, we introduce the {\it Laplacian matrix} associated with the geographic weight matrix, {\bf W}. The Laplacian matrix is defined as ${\bf \Lambda}$ =  {\bf D} $-$ {\bf W}  where  {\bf D} is a diagonal matrix with entries 
 $d_{ii} = \sum_{j = 1}^n w_{ij}$,  for  $i = 1, \dots, n$~\citep{Belkin2003}. Elementary matrix algebra shows that 
@@ -41,13 +42,11 @@ $$
  \noindent  where $\|  u \|^2$ is the square norm of the vector $u$~\citep{DengCai2011}. Assuming that geographically close individuals are more likely to share ancestry than individuals at distant sites  is thus equivalent to minimizing the quadratic form ${\cal C}({\bf Q}) ={\rm Tr} ({\bf Q}^T {\bf \Lambda} {\bf Q})$ while estimating the matrix ${\bf Q}$. 
 
 \paragraph{Least-squares minimization problems} Estimating the matrices ${\bf Q}$ and {\bf G } is performed through the minimization of the least-squares functional defined as follows
-
 \begin{equation}
-\min {\rm LS}({\bf Q}, {\bf G}) =   \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} +  \alpha \, {\cal C}({\bf Q}) \, , 
+\min {\rm LS}({\bf Q}, {\bf G}) =   \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} +  \alpha (p+1)L/K \lambda_{\max} \, {\cal C}({\bf Q}) \, , 
 \label{eq:LS}
 \end{equation}
-
- \noindent  under the sets of constraints $\Delta_Q$ and  $\Delta_G$~\cite{Caye2016}. Here, the notation $\|  {\bf M}  \|_{\rm F}$ denotes the Frobenius norm of a matrix, {\bf M}. A regularization parameter, $\alpha$, controls the regularity of ancestry estimates over geographic space.  Large values of $\alpha$ imply that ancestry coefficients have similar values for nearby individuals, whereas small values ignore spatial autocorrelation in observed allele frequencies. In pratice, the default value for the regularization parameter is set to $\alpha = (p+1)L/K \lambda_{\max}$, where $\lambda_{\max}$ is the largest eigenvalue of the Laplacian matrix. Using the least-squares approach, the number of ancestral populations, $K$, can be chosen after the evaluation of a cross-validation criterion for each $K$~\citep{Alexander2011, Frichot2014, Frichot2015}.  
+ \noindent under the sets of constraints $\Delta_Q$ and  $\Delta_G$~\cite{Caye2016}. Here, the notation $\|  {\bf M}  \|_{\rm F}$ denotes the Frobenius norm of a matrix, {\bf M}. The regularization term is normalized by $(p+1)L/K \lambda_{\max}$, where $\lambda_{\max}$ is the largest eigenvalue of the Laplacian matrix. This normalization gives the same order of magnitude to both terms of the problem~\ref{eq:LS}. The regularization parameter $\alpha$ controls the regularity of ancestry estimates over geographic space.  Large values of $\alpha$ imply that ancestry coefficients have similar values for nearby individuals, whereas small values ignore spatial autocorrelation in observed allele frequencies. Using the least-squares approach, the number of ancestral populations, $K$, can be chosen after the evaluation of a cross-validation criterion for each $K$~\citep{Alexander2011, Frichot2014, Frichot2015}.
 
 
 \paragraph{The Alternating Quadratic Programming (AQP) method} Because the poly\-edrons $\Delta_Q$ and  $\Delta_G$ are convex sets and the LS function is convex with
@@ -64,11 +63,11 @@ q^\star = \arg \min ( -2 v^T_G \, q + q^T {\bf D}_G q ) \,  ,
 $$
 
 
-\noindent where  $q \in \Delta_Q$, ${\bf D}_G = {\bf I}_{n} \otimes {\bf G}^T {\bf G }+ \alpha {\bf \Lambda}  \otimes {\bf I}_K$ and $v_G = {\rm vec}({\bf G}^T{\bf  Y}^T)$. According to the Corollary 2 of ~\cite{Grippo2000} we can directly write the following convergence result:
+\noindent where  $q \in \Delta_Q$, ${\bf D}_G = {\bf I}_{n} \otimes {\bf G}^T {\bf G } + \alpha {\bf \Lambda}  \otimes {\bf I}_K$ and $v_G = {\rm vec}({\bf G}^T{\bf  Y}^T)$. According to the Corollary 2 of ~\cite{Grippo2000} we can directly write the following convergence result:
 \begin{thm}
 	The AQP algorithm converges to a critical point of the problem~\ref{eq:LS}.
 \end{thm}
-Thus, using AQP provides theoretical guarantees that the $Q$ and $G$-matrix estimates are correctly computed, a property lacking for other algorithms, such as {\tt structure} or {\tt tess3}.  The computation of the second step of the AQP algorithm has an algorithmic complexity of order $O(n^2)$ which does not improve over~\cite{Caye2016}Õs method, and can be problematic for large samples ($n$ is the sample size). 
+Thus, using AQP provides theoretical guarantees that the $Q$ and $G$-matrix estimates are correctly computed, a property lacking for other algorithms, such as {\tt structure} or {\tt tess3}.  The computation of the second step of the AQP algorithm has an algorithmic complexity of order $O(n^2)$ which does not improve over~\cite{Caye2016}Ã•s method, and can be problematic for large samples ($n$ is the sample size). 
 
 
 \paragraph{Alternating Projected Least-Squares (APLS)} In this paragraph, we introduce an APLS estimation algorithm which approximates the solution of the least-squares problem, and for which the algorithmic complexity is of order $O(n)$, with $n$ the number of samples. The APLS algorithm starts from initial values of the $G$ and $Q$-matrices, and alternates two steps. The matrix {\bf G} is computed  while  {\bf Q} is kept fixed, and {\it vice versa}. Assume that the matrix {\bf Q} is known. The first step of the APLS algorithm solves the following minimization problem. Find 
@@ -99,7 +98,7 @@ $$
 
 
 
-\paragraph{Estimation with {\tt tess3}}  The algorithm implemented in \cite{Caye2016}Õs  program also provides approximation of the least-squares problem. The {\tt tess3} algorithm first computes the Cholesky decomposition of the Laplacian matrix. Then, by a change of variables, the least-squares problem is transformed into a sparse nonnegative matrix factorization problem~\citep{Caye2016}.  Solving the sparse non-negative matrix factorization problem relies on the application of existing methods~\citep{Kim2011, Frichot2014}. The methods implemented in {\tt tess3} have an algorithmic complexity that increases linearly with the number of loci and the number of clusters. They lead to estimates that accurately reproduce those of the Monte Carlo algorithms implemented in the Bayesian method {\tt tess} 2.3~\citep{Caye2016}. Like for the AQP method, the {\tt tess3} algorithms have an algorithmic complexity that increases quadratically with the sample sizes.  
+\paragraph{Estimation with {\tt tess3}}  The algorithm implemented in \cite{Caye2016}Ã•s  program also provides approximation of the least-squares problem. The {\tt tess3} algorithm first computes the Cholesky decomposition of the Laplacian matrix. Then, by a change of variables, the least-squares problem is transformed into a sparse nonnegative matrix factorization problem~\citep{Caye2016}.  Solving the sparse non-negative matrix factorization problem relies on the application of existing methods~\citep{Kim2011, Frichot2014}. The methods implemented in {\tt tess3} have an algorithmic complexity that increases linearly with the number of loci and the number of clusters. They lead to estimates that accurately reproduce those of the Monte Carlo algorithms implemented in the Bayesian method {\tt tess} 2.3~\citep{Caye2016}. Like for the AQP method, the {\tt tess3} algorithms have an algorithmic complexity that increases quadratically with the sample sizes.  
 
 
 

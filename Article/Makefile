@@ -6,7 +6,7 @@ NC = \033[0m # No Color
 PRINT = @echo "$(GREEN)Building $@ $(NC)"
 
 LATEX = latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make
-SRC = $(wildcard *.tex)
+SRC = appendix.tex draft.tex intro.tex results.tex method.tex  tables_figures.tex discussion.tex references.tex
 MAIN = draft
 
 .PHONY: all OldVersion
