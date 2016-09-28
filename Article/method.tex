@@ -24,13 +24,16 @@ $$
 w_{ij} = \exp( - {\rm dist}( x_i, x_j )^2/ \sigma^2)
 $$
 \noindent where dist$( x_i, x_j )$ denotes the geodesic distance between sites $x_i$ and  $x_j$, and $\sigma$ is a range parameter. Values for the range parameter may be investigated by using spatial variograms~\citep{Cressie1993}. We propose an extension of the univariate variogram to genotypic data:
-$$
+\begin{equation}
 \gamma(h) = \frac{1}{2 |N(h)|} \sum_{i,j \in N(h)} \frac{1}{L} \sum_{l} |Y_{i,l} - Y_{j,l}|
-$$
-\noindent where $N(h)$ define all the indices of individuals separated by a geographic distance $h$. 
-
-Theorem???
-
+\label{eq:gamma}
+\end{equation}
+\noindent where $N(h)$ define all the indices of individuals separated by a geographic distance $h$. We can show that under the TESS3 model the function $\gamma$ can be approximated by 
+\begin{equation}
+\hat{\gamma}(h) = {Cst}_0 \frac{1}{2 |N(h)|} \sum_{i,j \in N(h)} \| {\bf Q}_{i,.} - {\bf Q}_{i,.}\|^2 + {Cst}_1, 
+\label{eq:gammahat}
+\end{equation}
+\noindent where $\|  u \|^2$ is the square norm of the vector, ${\bf Q}_{i,.}$ the $i$th row of the admixture matrix ${\bf Q}$. There are two not computed constant values noted ${Cst}_0$ and ${Cst}_1$. Thus, compute and visualize the function $\gamma$ give good insight on the spatial autocorrelation between individuals in the ancestry matrix ${\bf Q}$ and so what range parameter value to choose.
 
 Next, we introduce the {\it Laplacian matrix} associated with the geographic weight matrix, {\bf W}. The Laplacian matrix is defined as ${\bf \Lambda}$ =  {\bf D} $-$ {\bf W}  where  {\bf D} is a diagonal matrix with entries 
 $d_{ii} = \sum_{j = 1}^n w_{ij}$,  for  $i = 1, \dots, n$~\citep{Belkin2003}. Elementary matrix algebra shows that 
@@ -51,11 +54,11 @@ $$
 \end{aligned}
 \label{eq:LS}
 \end{equation}
- \noindent The notation $\|  {\bf M}  \|_{\rm F}$ denotes the Frobenius norm of a matrix, {\bf M}. The regularization term is normalized by $(p+1)L/K \lambda_{\max}$, where $\lambda_{\max}$ is the largest eigenvalue of the Laplacian matrix. Lastly, we will use $\alpha = \alpha ' (p+1)L/K \lambda_{\max}$. This normalization gives the same order of magnitude to both terms of the problem~\ref{eq:LS}. The regularization parameter $\alpha$ controls the regularity of ancestry estimates over geographic space.  Large values of $\alpha$ imply that ancestry coefficients have similar values for nearby individuals, whereas small values ignore spatial autocorrelation in observed allele frequencies. Using the least-squares approach, the number of ancestral populations, $K$, can be chosen after the evaluation of a cross-validation criterion for each $K$~\citep{Alexander2011, Frichot2014, Frichot2015}.
+ \noindent The notation $\|  {\bf M}  \|_{\rm F}$ denotes the Frobenius norm of a matrix, {\bf M}. The regularization term is normalized by $(p+1)L/K \lambda_{\max}$, where $\lambda_{\max}$ is the largest eigenvalue of the Laplacian matrix. Lastly, we will use $\alpha = \alpha ' (p+1)L/K \lambda_{\max}$. This normalization gives the same order of magnitude to both terms of the problem~\eqref{eq:LS}. The regularization parameter $\alpha$ controls the regularity of ancestry estimates over geographic space.  Large values of $\alpha$ imply that ancestry coefficients have similar values for nearby individuals, whereas small values ignore spatial autocorrelation in observed allele frequencies. Using the least-squares approach, the number of ancestral populations, $K$, can be chosen after the evaluation of a cross-validation criterion for each $K$~\citep{Alexander2011, Frichot2014, Frichot2015}.
 
 
 \paragraph{The Alternating Quadratic Programming (AQP) method} Because the poly\-edrons $\Delta_Q$ and  $\Delta_G$ are convex sets and the LS function is convex with
-respect to one of the variables ${\bf Q}$ or ${\bf G}$ when the other one is fixed, the problem~\ref{eq:LS} is amenable to the application of block coordinate descent~\citep{Bertsekas1995}. The APQ algorithm starts from initial values for the $G$ and $Q$-matrices, and alternates two steps. The first step computes the matrix {\bf G} while  {\bf Q} is kept fixed, and second step permutates the roles of {\bf G} and {\bf Q}.  Let us assume that {\bf Q} is fixed and write {\bf G} in a vectorial form, $g = {\rm vec({\bf G})} \in \mathbb{R}^{K(p + 1)L}$. The first step of algorithm actually solves the following quadratic programming problem. Find  
+respect to one of the variables ${\bf Q}$ or ${\bf G}$ when the other one is fixed, the problem~\eqref{eq:LS} is amenable to the application of block coordinate descent~\citep{Bertsekas1995}. The APQ algorithm starts from initial values for the $G$ and $Q$-matrices, and alternates two steps. The first step computes the matrix {\bf G} while  {\bf Q} is kept fixed, and second step permutates the roles of {\bf G} and {\bf Q}.  Let us assume that {\bf Q} is fixed and write {\bf G} in a vectorial form, $g = {\rm vec({\bf G})} \in \mathbb{R}^{K(p + 1)L}$. The first step of algorithm actually solves the following quadratic programming problem. Find  
 
 \begin{equation}
 \begin{aligned}

@@ -1,7 +1,7 @@
-\section{Algorithms}\label{app}
+\section{Algorithms}\label{app:algo}
 
 \begin{algo}
-	AQP algorithm pseudo code. To solve optimization problem describe by the function LS in~\ref{eq:LS}.
+	AQP algorithm pseudo code. To solve optimization problem~\eqref{eq:LS}.
     
 \begin{algorithm}[H]
  \KwIn{ the data matrix ${\bf Y} \in \{0,1\}^{n \times (p+1) L}$, the Laplacian matrix  ${\bf \Lambda} \in \mathbb{R}^{n \times n}$, the number of ancestral populations $K$, the regularization coefficient  $\alpha$, the maximum number of iteration $itMax$}
@@ -50,7 +50,7 @@
 \end{algo}
 
 \begin{algo}
-APLS algorithm pseudo code. To solve optimization problem describe by the function LS in~\ref{eq:LS}.
+APLS algorithm pseudo code. To solve the optimization problem~\eqref{eq:LS}.
 
 \begin{algorithm}[H]
 \KwIn{ the data matrix ${\bf Y} \in \{0,1\}^{n \times (d+1) L}$, the eigen values and vectors matrices ${\bf U}$ and $diag({\bf \Lambda})$ such that ${\bf \Lambda} = {\bf U}^T diag({\bf \Lambda}) {\bf U}$, the number of ancestral populations $K$, the regularization coefficient  $\alpha$, the maximum number of iteration $itMax$}
@@ -104,4 +104,32 @@ Project ${\bf Q}$ such that ${\bf Q} \in \Delta_Q$ \;
 \label{algo:apls}
 \end{algo}
 
+\section{Approximation of the genotypic variogram}\label{app:approx}
 
+We demonstrate here that the function $\gamma$ of the equation~\eqref{eq:gamma} can be approximated by the function $\hat{\gamma}$ of the equation~\eqref{eq:gammahat}. We first remark that
+$$
+S = \frac{1}{L} \sum_l |{\bf Y}_{i,l} - {\bf Y}_{j,l}|
+$$
+can be approximated by is mean 
+$$
+E[S] = \frac{1}{L} \sum_l P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1)
+$$
+because 
+$$
+Var(S) = \frac{1}{L^2} \sum_l P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1) 
+( 1 - P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1)).
+$$
+The notations $Var$ and $E$ stand for the the mean and the variance. Then, we can show that 
+$$
+P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1) = ({\bf P}_{i,l} - {\bf P}_{j,l})^2 + {\bf P}_{i,l} (1 - {\bf P}_{i,l}) + {\bf P}_{j,l} (1 - {\bf P}_{j,l}),
+$$
+\noindent where ${\bf P} = {\bf Q} {\bf G}^T$ the matrix of probability. Each value of the matrix ${\bf P}$ represents the probability to observe ${\bf Y}_{j,l} = 1$. Finally, if we assume that 
+$$
+\frac{1}{|N(h)|} \sum_{i,j \in N(h)} \frac{1}{L} \sum_l  {\bf P}_{i,l} (1 - {\bf P}_{i,l})
+$$
+and 
+$$
+\frac{1}{L} \sum_l \sum_k {\bf G}_{l,k}
+$$
+are approximated by constants we can approximate $\gamma$ by $\hat{\gamma}$. 
+Grosse approximation????
