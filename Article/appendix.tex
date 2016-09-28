@@ -1,110 +1,107 @@
 \section{Algorithms}\label{app}
 
-
-\subsection{AQP algorithms}
-\label{appendix:aqp}
-
 \begin{algo}
-	To solve optimization problem describe by the function LS in~\ref{eq:LS}
-\begin{algorithm}
- \KwIn{ the data matrix ${\bf Y} \in \{0,1\}^{n \times (d+1) L}$, the Laplacian test matrix  ${\bf \Lambda}$, the number of ancestral populations $K$, the regularization coefficient  $\lambda$, the maximum number of iteration $itMax$}
+	AQP algorithm pseudo code. To solve optimization problem describe by the function LS in~\ref{eq:LS}.
+    
+\begin{algorithm}[H]
+ \KwIn{ the data matrix ${\bf Y} \in \{0,1\}^{n \times (p+1) L}$, the Laplacian matrix  ${\bf \Lambda} \in \mathbb{R}^{n \times n}$, the number of ancestral populations $K$, the regularization coefficient  $\alpha$, the maximum number of iteration $itMax$}
  
- \KwOut{the admixture coefficients matrix $Q\in \mathbb{R}^{n \times K}$, the ancestral genotype frequencies matrix $G \in \mathbb{R}^{K \times (d+1) L}$ }
+ \KwOut{the admixture coefficients matrix ${\bf Q} \in \mathbb{R}^{n \times K}$, the ancestral genotype frequencies matrix ${\bf G} \in \mathbb{R}^{K \times (p+1) L}$ }
  
  \BlankLine
   
- Initialize $Q$ at random \;
+ Initialize ${\bf Q}$ at random \;
 	
  \For{$it = 1..itMax$}{
 	 \BlankLine
-	 // F optimization step
+	 // G optimization step
 	
       \For{$l = 1..L$}{
-			${\bf Y}^l \leftarrow {\bf Y}_{., (d+1)l..(d+1)l + d}$ \;
-		    $ D \leftarrow Id_{d+1} \otimes Q^T Q$\;
+			$Y^l \leftarrow {\bf Y}_{., (d+1)l..(d+1)l + d}$ \;
+		    $ {\bf D}_Q \leftarrow {\bf I}_{p+1} \otimes {\bf Q}^T {\bf Q}$\;
 	
-			$ c \leftarrow Vec(Q^T X^l)$\;
+			$ v_Q \leftarrow Vec({\bf Q}^T Y^l)$\;
 	
-	      $f^l \in \argmin_{
+	      $g^\star \in \argmin_{
 			       \substack{
-	          f \in \Delta_F
+	          g \in \Delta_G
 	       }
 	     } 
-              - 2 c f + f^T D f$ \;
+              - 2 v_Q^T g + g^T {\bf D}_Q g$ \;
 	
-	$Vec(F_{(d+1)l..(d+1)l + d, .}^T) \leftarrow f^l$ \;
+	$Vec({\bf G}_{(d+1)l..(d+1)l + d,.}) \leftarrow g^\star$ \;
 	 }
 	 \BlankLine
 	// Q optimization step
 	
-	$ D \leftarrow Id_{n} \otimes F^T F + \lambda L \otimes Id_{K}$ \;
+	$ {\bf D}_G \leftarrow Id_{n} \otimes {\bf G}^T {\bf G} + \alpha {\bf \Lambda} \otimes {\bf I}_{K}$ \;
 	
-	 $ c \leftarrow Vec(F^T X^T)$ \;
+	 $ v_G \leftarrow Vec({\bf G}^T {\bf Y}^T)$ \;
 	
-      $Vec(Q^T) \in \argmin_{%
+      $Vec({\bf Q}^T) \in \argmin_{%
 	       \substack{%
 	          q \in \Delta_Q
 	       }
 	     } 
-	     - 2 c q + q^T D q$\;
+	     - 2 v_G^T q + q^T {\bf D}_G q$\;
 	 }
-	% \label{alg:QP}
 \end{algorithm}
+\label{algo:aqp}
 \end{algo}
-\subsection{APLS algorithms}
-\label{appendix:apls}
 
-\begin{algorithm}
-\KwIn{ the data matrix ${\bf Y} \in \{0,1\}^{n \times (d+1) L}$, the eigen values and vectors matrices $L$ and $D$ such that ${\bf \Lambda} = R^T D R$, the number of ancestral populations $K$, the regularization coefficient  $\lambda$, the maximum number of iteration $itMax$}
+\begin{algo}
+APLS algorithm pseudo code. To solve optimization problem describe by the function LS in~\ref{eq:LS}.
 
-\KwOut{the admixture coefficients matrix $Q\in \mathbb{R}^{n \times K}$, the ancestral genotype frequencies matrix $G \in \mathbb{R}^{K \times (d+1) L}$ }
+\begin{algorithm}[H]
+\KwIn{ the data matrix ${\bf Y} \in \{0,1\}^{n \times (d+1) L}$, the eigen values and vectors matrices ${\bf U}$ and $diag({\bf \Lambda})$ such that ${\bf \Lambda} = {\bf U}^T diag({\bf \Lambda}) {\bf U}$, the number of ancestral populations $K$, the regularization coefficient  $\alpha$, the maximum number of iteration $itMax$}
+
+\KwOut{the admixture coefficients matrix ${\bf Q} \in \mathbb{R}^{n \times K}$, the ancestral genotype frequencies matrix ${\bf G} \in \mathbb{R}^{K \times (d+1) L}$ }
 
  \BlankLine
  
- Initialize $Q$ at random \;
+ Initialize ${\bf Q}$ at random \;
 
- ${\bf Y}_R \leftarrow R {\bf Y}$ \;
+ $proj({\bf Y}) \leftarrow {\bf R} {\bf Y}$ \;
 
  \For{$it = 1..itMax$}{	 
  	\BlankLine
 	 // F optimization step
 
-	\For{$j = 1..(D+1)L$}{
-	 $X^j \leftarrow X_{., j}$;
+	\For{$j = 1..(p+1)L$}{
 
-	$f^j \in \argmin_{%
+	$g^\star \in \argmin_{%
 	       \substack{%
-	          f \in \mathbb{R}^{K}
+	          g \in \mathbb{R}^{K}
 	       }
 	       }
-	     || Vec(X^j) - Q f||^2$\;
+	     || {\bf Y}_{., j} - {\bf Q} g||^2$\;
 
- $Vec(F_{j, .}^T) \leftarrow f^j $\;
+ ${\bf G}_{j,.} \leftarrow g^\star $\;
  }
 
- Project $F$ such that $G \in \Delta_G$ \;
+ Project ${\bf G}$ such that ${\bf G} \in \Delta_G$ \;
  	\BlankLine
 	 // Q optimization step
 
  \For{$i = 1..n$}{
- $X_R^i \leftarrow X_{i, .}$;
-
- $q_R^i \in \argmin_{%
+ $g^\star_i \in \argmin_{%
        \substack{%
           q \in \mathbb{R}^{K}
        }
        }
-     || Vec({X_R^i}^T) - F q ||^2 + \lambda D_{i,i} ||q||^2$\;
+     || proj({\bf Y})_{i,.} - {\bf G}^T q ||^2 + \lambda diag({\bf \Lambda})_{i,i} ||q||^2$\;
 
- $Vec({Q_R^T}_{i, .}) \leftarrow q_R^i $\;
+ $proj({\bf Q})_{i, .} \leftarrow g^\star_i $\;
  }
 
- $Q \leftarrow R^T Q_R$\;
+ ${\bf Q} \leftarrow {\bf U}^T proj({\bf Q})$\;
 
-Project $Q$ such that $G \in \Delta_Q$ \;
+Project ${\bf Q}$ such that ${\bf Q} \in \Delta_Q$ \;
  }
 
- \label{alg:proj}
+
  \end{algorithm}
+\label{algo:apls}
+\end{algo}
 
 
