@@ -5,7 +5,7 @@ GREEN =  \033[0;32m
 NC = \033[0m # No Color
 PRINT = @echo "$(GREEN)Building $@ $(NC)"
 
-LATEX = latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make
+LATEX = latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode"
 SRC = appendix.tex draft.tex intro.tex results.tex method.tex tables_figures.tex discussion.tex references.tex
 MAIN = draft
 
@@ -35,7 +35,7 @@ OldVersion:
 	git --work-tree=./OldVersion/ checkout $(TAG) -- ./Article
 
 diff.tex: $(SRC)
-	latexdiff --math-markup=3 OldVersion/Article/draft.tex draft.tex --flatten > diff.tex
+	latexdiff --math-markup=0 OldVersion/Article/draft.tex draft.tex --flatten > diff.tex
 
 diff.pdf: diff.tex
 		$(LATEX) diff.tex
