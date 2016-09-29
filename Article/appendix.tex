@@ -53,7 +53,7 @@
 APLS algorithm pseudo code. To solve the optimization problem~\eqref{eq:LS}.
 
 \begin{algorithm}[H]
-\KwIn{ the data matrix ${\bf Y} \in \{0,1\}^{n \times (d+1) L}$, the eigen values and vectors matrices ${\bf U}$ and $diag({\bf \Lambda})$ such that ${\bf \Lambda} = {\bf U}^T diag({\bf \Lambda}) {\bf U}$, the number of ancestral populations $K$, the regularization coefficient  $\alpha$, the maximum number of iteration $itMax$}
+\KwIn{ the data matrix ${\bf Y} \in \{0,1\}^{n \times (d+1) L}$, the eigen values and vectors matrices ${\bf U}$ and ${\bf D}$ such that ${\bf \Lambda} = {\bf U}^T {\bf D} {\bf U}$, the number of ancestral populations $K$, the regularization coefficient  $\alpha$, the maximum number of iteration $itMax$}
 
 \KwOut{the admixture coefficients matrix ${\bf Q} \in \mathbb{R}^{n \times K}$, the ancestral genotype frequencies matrix ${\bf G} \in \mathbb{R}^{K \times (d+1) L}$ }
 
@@ -89,7 +89,7 @@ APLS algorithm pseudo code. To solve the optimization problem~\eqref{eq:LS}.
           q \in \mathbb{R}^{K}
        }
        }
-     || proj({\bf Y})_{i,.} - {\bf G}^T q ||^2 + \lambda diag({\bf \Lambda})_{i,i} ||q||^2$\;
+     || proj({\bf Y})_{i,.} - {\bf G}^T q ||^2 + \lambda {\bf D}_{i,i} ||q||^2$\;
 
  $proj({\bf Q})_{i, .} \leftarrow g^\star_i $\;
  }
@@ -127,9 +127,5 @@ $$
 $$
 \frac{1}{|N(h)|} \sum_{i,j \in N(h)} \frac{1}{L} \sum_l  {\bf P}_{i,l} (1 - {\bf P}_{i,l})
 $$
-and 
-$$
-\frac{1}{L} \sum_l \sum_k {\bf G}_{l,k}
-$$
-are approximated by constants we can approximate $\gamma$ by $\hat{\gamma}$. 
+is constant $\forall h$ we can approximate $\gamma$ by $\hat{\gamma}$. 
 Grosse approximation????
