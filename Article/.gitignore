@@ -2,3 +2,5 @@
 *.blg
 draft.b
 draft.tex.bk
+diff.cb*
+*.tdo
