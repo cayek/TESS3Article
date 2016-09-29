@@ -36,6 +36,11 @@ namespace :latex do
   namespace :revision do
     tag = "v0.2.1"
 
+    desc "Clean latex files"
+    task :clean do
+      sh "rm -f diff.*"
+    end
+
     desc "Retrieve old draft version"
     task :OldVersion do
       sh "mkdir OldVersion"
@@ -44,7 +49,7 @@ namespace :latex do
 
     rule "diff.tex" => src do |t|
       puts "== Creating diff.tex".green
-      output = `latexdiff --math-markup=1 --type=CCHANGEBAR OldVersion/Article/draft.tex draft.tex --flatten > diff.tex`
+      output = `latexdiff --math-markup=0 OldVersion/Article/draft.tex draft.tex --flatten > diff.tex`
       output = output.gsub(/[Ee]rror/, "ERROR".red)
       output = output.gsub(/[Ww]arning/, "WARNING".yellow)
       puts output
