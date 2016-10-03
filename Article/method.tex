@@ -12,7 +12,7 @@ In this section we present two new algorithms for estimating individual admixtur
 \paragraph{$Q$ and $G$-matrices} Consider a genotypic matrix, {\bf Y}, recording data for $n$ individuals at $L$ polymorphic loci for a $p$-ploid species (common values for $p$ are $p = 1,2$). For autosomal SNPs in a diploid organism, the genotype at locus $\ell$  is an integer number 0, 1 or 2, corresponding to the number of reference alleles at this locus. In our algorithms, disjunctive forms are used  to encode each genotypic value as the indicator of a heterozygote or a homozygote locus (Frichot et al. 2014). For example, with a diploid organism, each genotypic value are encoded as $100$, $010$ and $001$. For $p$-ploid organisms, there are $(p+1)$ possible genotypic values at each locus, and each value corresponds to a unique disjunctive form. While our focus is on SNPs, the algorithms presented in this section extend to multi-allelic loci without loss of generality. 
 Moreover, the method can be easily extended to genotype likelihoods by using the likelihood to encode each genotypic value~\citep{Korneliussen2014}.
 
-Our algorithms provide statistical estimates for the $Q$-matrix which contains the admixture coefficients, ${\bf Q}_{i,k}$, for each sampled individual, $i$, and each ancestral population, $k$. The algorithms also provide estimates for the $G$-matrix, for which the entries, ${\bf G}_{(p+1)\ell + j, k}$, correspond to the frequency of genotype $j$ at locus $\ell$ in population $k$. Obviously, the $Q$ and $G$-matrices must satisfy the following set of probabilistic constraints 
+Our algorithms provide statistical estimates for the matrix ${\bf Q} \in \mathbb{R}^{K \times n}$ which contains the admixture coefficients, ${\bf Q}_{i,k}$, for each sampled individual, $i$, and each ancestral population, $k$. The algorithms also provide estimates for the matrix ${\bf G} \in \mathbb{R}^{(p+1)L \times K}$, for which the entries, ${\bf G}_{(p+1)\ell + j, k}$, correspond to the frequency of genotype $j$ at locus $\ell$ in population $k$. Obviously, the $Q$ and $G$-matrices must satisfy the following set of probabilistic constraints 
 
 $$
 \quad {\bf Q},{\bf G} \geq 0 \, , \quad  \sum_{k=1}^K {\bf Q}_{i,k} = 1 \, , \quad \sum_{j=0}^p {\bf G}_{(p+1)\ell + j, k} = 1 \, , \quad j = 0,1,\dots, p,
@@ -50,8 +50,8 @@ $$
 \begin{aligned}
 & \underset{Q, G}{\text{min}}
 & & {\rm LS}({\bf Q}, {\bf G}) =   \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} +  \alpha ' \frac{(p+1)L}{K \lambda_{\max}} {\cal C}({\bf Q}) , \\
-& \text{s.t.} & &  Q \in \Delta_Q , \\
-& & &  G \in \Delta_G . \\
+& \text{s.t.} & &  {\bf Q} \in \Delta_Q , \\
+& & &  {\bf G} \in \Delta_G . \\
 \end{aligned}
 \label{eq:LS}
 \end{equation}
