@@ -40,6 +40,8 @@ Figure*/Figures/*.tex
 *.fls
 Article/diff.tex
 Article/OldVersion/
+Article/GSA-journal-template.tex
+Article/example-bibliography.bib
 
 # Rmd
 *.html
