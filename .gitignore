@@ -1,5 +1,6 @@
 # overleaf
 ArticleOverleaf/
+*.tdo
 
 .Rproj.user
 .Rhistory
