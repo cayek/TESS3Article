@@ -1,8 +1,8 @@
 apt-get update && apt-get install -y texlive-science imagemagick latexdiff
 
-tlmgr init-usertree \
-&& tlmgr option repository ftp://tug.org/historic/systems/texlive/2013/tlnet-final \
-     && tlmgr --no-persistent-downloads update --all \
+ tlmgr init-usertree \
+ && tlmgr option repository ftp://tug.org/historic/systems/texlive/2013/tlnet-final \
+#      && tlmgr --no-persistent-downloads update --all \
      && tlmgr --no-persistent-downloads install mathdesign \
      && tlmgr --no-persistent-downloads install babel-french \
      && tlmgr --no-persistent-downloads install graphics-def \
