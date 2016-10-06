@@ -5,12 +5,21 @@ namespace :latex do
   latex = 'latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode"'
 
 
-  src = ["appendix.tex", "draft.tex", "intro.tex", "results.tex", "method.tex", "tables_figures.tex", "discussion.tex", "references.tex"]
+  src = ["appendix.tex", "draft.tex", "intro.tex", "results.tex", "method.tex",
+    "tables_figures.tex", "discussion.tex", "references.tex"]
 
   main = "draft"
 
+  desc "Copy the biblio from Biblio project"
+  task :bib do
+    if ENV['USER'] == "cayek"
+      puts "== Copy of draft.bib from the Biblio project !!!".green
+      sh "cp -f ../../Biblio/TESS3_article2/draft.bib draft.bib"
+    end
+  end
+
   desc "Compile draf.pdf"
-  task :draft => src do
+  task :draft => src + ["bib"] do
     file = "draft.tex"
     pdf = file.ext(".pdf")
     puts "==Compilling #{pdf}".green
