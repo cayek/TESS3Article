@@ -1,3 +1,43 @@
+\section{Approximation of the genotypic variogram}\label{app:approx}
+
+We give here arguments to justify that the function
+$$
+\gamma(h) = \frac{1}{2 |N(h)|} \sum_{i,j \in N(h)} \frac{1}{L} \sum_{l} |Y_{i,l} - Y_{j,l}|
+$$
+can be approximated by the function 
+$$\hat{\gamma}(h) = {Cst}_0 \frac{1}{2 |N(h)|} \sum_{i,j \in N(h)} \| {\bf Q}_{i,.} - {\bf Q}_{i,.}\|^2 + {Cst}_1. 
+$$
+We first remark that
+$$
+S = \frac{1}{L} \sum_l |{\bf Y}_{i,l} - {\bf Y}_{j,l}|
+$$
+can be approximated by is mean 
+$$
+E[S] = \frac{1}{L} \sum_l P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1)
+$$
+because 
+$$
+Var(S) = \frac{1}{L^2} \sum_l P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1) 
+( 1 - P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1)).
+$$
+The notations $Var$ and $E$ stand for the the mean and the variance. Then, we can show that 
+$$
+P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1) = ({\bf P}_{i,l} - {\bf P}_{j,l})^2 + {\bf P}_{i,l} (1 - {\bf P}_{i,l}) + {\bf P}_{j,l} (1 - {\bf P}_{j,l}),
+$$
+\noindent where ${\bf P}$ is the matrix of probability. Each value of the matrix ${\bf P}$ represents the probability to observe ${\bf Y}_{j,l} = 1$. Moreover, under the TESS3 model assumption, we have ${\bf P} = {\bf Q} {\bf G}^T$, where ${\bf Q}$ and ${\bf G}$ are the ancestry matrices. So, we have
+$$
+\sum_{i,j \in N(h)} \frac{1}{L} \sum_{l} ({\bf P}_{i,l} - {\bf P}_{j,l})^2 = {Cst}_0 \sum_{i,j \in N(h)} \| {\bf Q}_{i,.} - {\bf Q}_{i,.}\|^2
+$$
+where ${Cst}_0 = \frac{1}{L} \sum_{l} \sum_{k} {\bf G}_{k,l}^2$.
+Finally, if we assume that 
+$$
+{Cst}_1 = \frac{1}{|N(h)|} \sum_{i,j \in N(h)} \frac{1}{L} \sum_l  {\bf P}_{i,l} (1 - {\bf P}_{i,l})
+$$
+is constant $\forall h$ we can approximate $\gamma$ by $\hat{\gamma}$. 
+
+
+
+
 \section{Algorithms}\label{app:algo}
 
 \begin{algo}
@@ -104,40 +144,3 @@ Project ${\bf Q}$ such that ${\bf Q} \in \Delta_Q$ \;
 \label{algo:apls}
 \end{algo}
 
-\section{Approximation of the genotypic variogram}\label{app:approx}
-
-We give here arguments to justify that the function
-$$
-\gamma(h) = \frac{1}{2 |N(h)|} \sum_{i,j \in N(h)} \frac{1}{L} \sum_{l} |Y_{i,l} - Y_{j,l}|
-$$
-can be approximated by the function 
-$$\hat{\gamma}(h) = {Cst}_0 \frac{1}{2 |N(h)|} \sum_{i,j \in N(h)} \| {\bf Q}_{i,.} - {\bf Q}_{i,.}\|^2 + {Cst}_1. 
-$$
-We first remark that
-$$
-S = \frac{1}{L} \sum_l |{\bf Y}_{i,l} - {\bf Y}_{j,l}|
-$$
-can be approximated by is mean 
-$$
-E[S] = \frac{1}{L} \sum_l P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1)
-$$
-because 
-$$
-Var(S) = \frac{1}{L^2} \sum_l P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1) 
-( 1 - P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1)).
-$$
-The notations $Var$ and $E$ stand for the the mean and the variance. Then, we can show that 
-$$
-P(|{\bf Y}_{i,l} - {\bf Y}_{j,l}| = 1) = ({\bf P}_{i,l} - {\bf P}_{j,l})^2 + {\bf P}_{i,l} (1 - {\bf P}_{i,l}) + {\bf P}_{j,l} (1 - {\bf P}_{j,l}),
-$$
-\noindent where ${\bf P}$ is the matrix of probability. Each value of the matrix ${\bf P}$ represents the probability to observe ${\bf Y}_{j,l} = 1$. Moreover, under the TESS3 model assumption, we have ${\bf P} = {\bf Q} {\bf G}^T$, where ${\bf Q}$ and ${\bf G}$ are the ancestry matrices. So, we have
-$$
-\sum_{i,j \in N(h)} \frac{1}{L} \sum_{l} ({\bf P}_{i,l} - {\bf P}_{j,l})^2 = {Cst}_0 \sum_{i,j \in N(h)} \| {\bf Q}_{i,.} - {\bf Q}_{i,.}\|^2
-$$
-where ${Cst}_0 = \frac{1}{L} \sum_{l} \sum_{k} {\bf G}_{k,l}^2$.
-Finally, if we assume that 
-$$
-{Cst}_1 = \frac{1}{|N(h)|} \sum_{i,j \in N(h)} \frac{1}{L} \sum_l  {\bf P}_{i,l} (1 - {\bf P}_{i,l})
-$$
-is constant $\forall h$ we can approximate $\gamma$ by $\hat{\gamma}$. 
-\todo{Grosse approximation????}
