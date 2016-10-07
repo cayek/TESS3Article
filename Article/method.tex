@@ -29,7 +29,7 @@ $$
 To evaluate variograms, we extend the univariate variogram to genotypic data as follows
 
 \begin{equation}
-\gamma(h) = \frac{1}{2 |N(h)|} \sum_{i,j \in N(h)} \frac{1}{L} \sum_{l} |Y_{i,\ell} - Y_{j,\ell}|,
+\gamma(h) = \frac{1}{2 |N(h)|} \sum_{i,j \in N(h)} \frac{1}{L} \sum_{l = 1}^{(p+1)L} |Y_{i,l} - Y_{j,l}|,
 \label{eq:gamma}
 \end{equation}
 \noindent where $N(h)$ is defined as the set of individuals separated by geographic distance $h$. 
