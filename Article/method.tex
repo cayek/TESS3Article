@@ -95,6 +95,7 @@ the AQP algorithm converges to a critical point of problem~\eqref{eq:LS}.
 \end{proof}
 
 \paragraph{Alternating Projected Least-Squares (APLS)} In this paragraph, we introduce an APLS estimation algorithm which approximates the solution of problem~\eqref{eq:LS}, and reduces the complexity of the AQP algorithm. The APLS algorithm starts from initial values of the $G$ and $Q$-matrices, and alternates two steps. The matrix {\bf G} is computed  while  {\bf Q} is kept fixed, and {\it vice versa}. Assume that the matrix {\bf Q} is known. The first step of the APLS algorithm solves the following optimization problem. Find 
+
 \begin{equation}
 {\bf G}^\star = \arg \min  \|  {\bf Y} - {\bf QG}^T \|^2_{\rm F} \, .
 \end{equation}
