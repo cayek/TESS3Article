@@ -138,8 +138,8 @@ brplot <- ggplot(toplot, aes(x = index, y = value)) +
 
 ################################################################################
 # Plot
-tikzDevice::tikz(paste0(fig.dir,"map.tex"), width = 0.85 * page$width,
-                 height = 0.5 * page$heigth, standAlone = TRUE)
+tikzDevice::tikz(paste0(fig.dir,"map.tex"), width = fig.prop$width * page$width,
+                 height = fig.prop$heigth * page$heigth, standAlone = TRUE)
 plot_grid(mappl, brplot, ncol = 1, labels = c("A", "B"), rel_heights = c(3,1), vjust = c(1.5, -0.5))
 dev.off()
 

@@ -27,8 +27,8 @@ pl <- ggplot(toplot ,aes(x = Fst.theorical, y = rmse.mean, col = Methods, shape 
   scale.color
 pl
 
-tikzDevice::tikz(paste0(fig.dir,"figure2.tex"), width = 0.85 * page$width,
-                 height = 0.5 * page$heigth, standAlone = TRUE)
+tikzDevice::tikz(paste0(fig.dir,"figure2.tex"), width = fig.prop$width * page$width,
+                 height = fig.prop$heigth * page$heigth, standAlone = TRUE)
 pl
 dev.off()
 # bup <- getwd()

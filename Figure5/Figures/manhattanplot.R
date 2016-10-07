@@ -69,8 +69,8 @@ pl <- ggplot(toplot, aes(x = index, y = -log(pvalue),
 
 
 
-tikzDevice::tikz(paste0(fig.dir,"manhattanplot.tex"), width = page$width * 0.85,
-                 height = page$heigth * 0.5, standAlone = TRUE)
+tikzDevice::tikz(paste0(fig.dir,"manhattanplot.tex"), width = fig.prop$width * page$width,
+                 height = fig.prop$heigth * page$heigth, standAlone = TRUE)
 pl
 dev.off()
 #

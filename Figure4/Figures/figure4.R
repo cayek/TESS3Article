@@ -22,7 +22,7 @@ pl.it.n <- ggplot(toplot ,aes(x = n, y = mean, col = Methods, linetype = Methods
   geom_errorbar(aes(ymin = mean - se, ymax = mean + se), width = 0.0) +
   theme_bw() +
   xlab("") +
-  ylab("Number of iterations \n") +
+  ylab("Number\nof iterations") +
   gtheme +
   theme(legend.position = "none") +
   scale.linetype +
@@ -77,8 +77,8 @@ pl.time.L <- ggplot(toplot ,aes(x = L, y = mean, col = Methods, linetype = Metho
   scale.color
 
 
-tikzDevice::tikz(paste0(fig.dir,"figure4.tex"), width = 0.85 * page$width,
-                 height = 0.5 * page$heigth, standAlone = TRUE)
+tikzDevice::tikz(paste0(fig.dir,"figure4.tex"), width = fig.prop$width * page$width,
+                 height = fig.prop$heigth * page$heigth, standAlone = TRUE)
 plot_grid(pl.it.n, pl.it.L, pl.time.n, pl.time.L, ncol = 2, labels = c("A", "B", "C", "D"))
 dev.off()
 # bup <- getwd()

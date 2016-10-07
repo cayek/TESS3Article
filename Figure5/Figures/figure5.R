@@ -44,7 +44,7 @@ selection.pl <- ggplot(toplot) +
   gtheme 
 
 
-tikzDevice::tikz(paste0(fig.dir, "figure5.tex"), width = page$width * 0.85,
-                 height = page$heigth * 0.25,standAlone = TRUE)
+tikzDevice::tikz(paste0(fig.dir, "figure5.tex"), width = fig.prop$width * page$width,
+                 height = fig.prop$heigth * page$heigth * 0.65,standAlone = TRUE)
 plot_grid(variogram.pl, selection.pl, nrow = 1, labels = c("A", "B"))
 dev.off()
