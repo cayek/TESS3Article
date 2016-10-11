@@ -23,11 +23,6 @@ CONTAINER_NAME = tess3_article
 include	docker.mk
 
 ################################################################################
-# binary
-
-include	binary.mk
-
-################################################################################
 # deployment
 
 test_deployment:
@@ -39,6 +34,6 @@ test_deployment:
 env_R: Environment/dependencies.R Environment/R_dependencies.sh
 	bash Environment/R_dependencies.sh
 	Rscript --vanilla Environment/dependencies.R
-	
+
 env_latex: Environment/latex_dependencies.sh
 		bash Environment/latex_dependencies.sh
