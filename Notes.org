@@ -1,0 +1,15 @@
+* Revisions
+The reviewers all agree that this paper is an interesting methodological
+contribution to the field of inference of population structure. There were four
+main revisions that should be made to the work according to the reviewer
+comments. First, slightly more space should be devoted to connecting the new
+work with the related work -- the related work is very clearly written, but the
+exact methods proposed here and the inclusion of geographic data should be
+motivated a bit more carefully and put in the perspective of the related work.
+Second, the selection of hyper parameters was not well discussed, and two of the
+reviewers would rather those details be included in the paper to have it
+self-contained. Third, related, R1 asks about model misspecification and how to
+evaluate the impact of incorrect priors on the results --- I agree that this
+point should be addressed adequately. Fourth, the results should be expanded to
+a larger data set. There were a handful of minor comments that should also be
+addressed.
