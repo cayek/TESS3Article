@@ -329,7 +329,8 @@
       sigma(bruit) x regularization param 
     - [ ] CV si ca marche ! 
     - [ ] simu 1000 genome (European Africain et Afro americain). Que donne snmf et
-      tess3r.
+      tess3r. Le fichier est énorme, on va faire un LF prunning et un filtrage
+      par la maf ! 
     - [ ] simons avec la maf 5%
 *** TODO implémentation
     - [ ] un fonction prédict sur un indiv pas vu ! Qui pourrait servir pour la
