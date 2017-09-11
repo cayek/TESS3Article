@@ -335,3 +335,22 @@
 *** TODO implémentation
     - [ ] un fonction prédict sur un indiv pas vu ! Qui pourrait servir pour la
       cross validation.
+* 2017
+** 2017-03 mars
+*** 2017-03-07 mardi
+**** TODO Réorganisation
+     [2017-03-07 mar. 14:14]
+
+     - [ ] fork tess3r
+     - [ ] script -> package
+     - [ ] Makefile 
+
+     Pour le moment j'ai fait un gros copy paste de map.R ...
+     To be continued.
+
+***** Factoriser du code entre les packages pour la thèse ? 
+      - benchmark function
+      - export function
+      - shinny function
+      - notebook 
+      a reflechir
